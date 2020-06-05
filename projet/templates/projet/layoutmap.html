@@ -1,0 +1,157 @@
+{% extends 'projet/map.html' %}
+
+{% block content %}
+<body>
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="{% url 'index' %}" role="tab"  ><i class="fa fa-github"></i></a></li>
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                
+
+                <h1 class="sidebar-header">
+                    Formulaire de recherche
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+   
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+              
+            <hr>
+             
+ 
+           <form method="POST" id ="limi">
+            {% csrf_token %}
+           <select id="dropdownCommunes">
+
+           <option>Sélectionnez une commune</option>
+                      {% for commune in communes %}
+                              <option   value="{{ commune.gid }}">{{ commune.name }}</option>
+                      {% endfor %}
+                              </select>
+             
+          <input type="button" value="Recherche" id="selection-button"  ></input>
+           </form>
+            <hr>
+           
+      <hr>
+ <div class="col-12" >
+  <a class="btn btn-warning" data-toggle="collapse" href="#collapsemorpho" role="button" aria-expanded="false" aria-controls="collapseExample">Caréctéristiques   </a>
+    <div  class= "collapse" id="collapsemorpho">
+      <div id="divResult"></div>
+        <h5> Pente:<span id = 'image-opacity'></span></h5>
+            <input type="range" id='sldOpacity' min='0' max ='1' step='0.1' value='0'>
+            <h5> Ombrage:<span id = 'ombrage-opacity'></span></h5>
+            <input type="range" id='ombOpacity' min='0' max ='1' step='0.1' value='0'>
+            <h5> Forêts 2000 (source:Ansen et All):<span id = 'hansen-opacity'></span></h5>
+            <input type="range" id='hansenOpacity' min='0' max ='1' step='0.1' value='0'>
+
+            <h5> Forêt 2017 (source:Ansen et All):<span id = 'hansen17-opacity'></span></h5>
+            <input type="range" id='hansenOpacity17' min='0' max ='1' step='0.1' value='0'>
+    </div>
+</div>
+<hr><hr>
+
+
+
+            <div class="col-12" >
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExampleos" role="button" aria-expanded="false" aria-controls="collapseExample">
+Résultat  </a>
+  
+  
+          <div  class= "collapse" id="collapseExampleos">
+          <div id="divResult"></div>
+                <table class="table table-bordered table-striped  table-hover " >
+    <thead class="header">
+      <tr>
+           <input type="checkbox" id="resultats_canton"  name ="resultats_canton" checked   > afficher le résultat<br>
+          <th style="color:green">canton(s) trouvé(s)</th>
+          <th style="color:green">Superficie en Ha</th>
+      </tr>
+    </thead>
+    <tbody id="resultats"></tbody>
+  </table>  
+<!--      table piste         -->
+  <table class="table table-bordered table-striped  table-hover" >
+    <thead  class="header">
+      <tr>
+           
+          <th style="color:brown" >Pistes(s) trouvé(s)</th>
+          <th style="color:brown">Longueur (m)</th>
+
+      </tr>
+    </thead>
+    <tbody id="pistes"></tbody>
+  </table>  
+
+<table class="table table-bordered table-striped  table-hover" >
+    <thead  class="header">
+      <tr>
+           
+          <th style="color:brown">TPF(s) trouvé(s)</th>
+           <th style="color:brown">Superficie (m2)</th>
+      </tr>
+    </thead>
+    <tbody id="table_tpf"></tbody>
+
+  </table>
+<table class="table table-bordered table-striped  table-hover"> 
+      <thead  class="header">
+      <tr >
+           
+          <th style="color:blue">Point(s) d'eau trouvé(s)</th>
+            
+      </tr>
+    </thead>
+    <tbody id='filterPoint_eau'></tbody>
+
+  </table>
+
+            </div>
+  </div>
+
+
+              
+ 
+ 
+  
+              </div><!-- fin de la  side bar-->
+     </div>
+
+    <div id="map" class="sidebar-map"></div>
+
+     
+
+ 
+  
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+
+   <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+   
+ 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+         <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
+ 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="stylesheet" href="https:cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href=" https://cdn.datatables.net/fixedheader/3.1.4/css/fixedHeader.bootstrap4.min.css">
+ 
+<link rel="stylesheet" type="text/css" href="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.bokeh.org/bokeh/release/bokeh-api-2.0.0.min.css">
+ 
+ <!-- <link rel="stylesheet"  href="{% static 'projet/css/myStyle.css' %}"> -->
+
+ <!-- source chart js -->
+<!-- <script src = "{% static 'projet/js/Chart.min.js' %}"></script>--> 
+<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  
+</head>
+ 
+  <body>
+ 
+  <nav class="navbar navbar-expand-sm navbar-dark  bg-dark">
+    <header class ='container'>
+  <a class="navbar-brand" href="{% url 'index' %}">Acceuil</a>
+  {% if user.is_authenticated %}
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'projet_changelist' %}">Projet <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url  'odd15' %}">ODD 15</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"   href="{% url  'sf2035' %}">Stratégie Forestière 2035</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Nos activités
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'carto' %}">Maps</a>
+              <a class="dropdown-item" href="{% url 'reboisement_changelist' %}">Reboisements</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link "  style="color:red"  href="#">{{user}}</a>
+            </li>
+          <li class="nav-item">
+            <a class="nav-link"   href="{% url  'logout' %}">Déconnexion</a>
+          </li>
+  {% else %}
+          <li class="nav-item"><a class="navbar-brand float-sm-right"    href="{% url  'signup' %}">Sign Up</a></li>
+          <li class="nav-item"><a class="navbar-brand float-sm-right"    href="{% url  'login' %}">Connexion </a></li>
+
+  {% endif %}
+        </ul>
+  </div>
+<!-- Compiled and minified CSS -->
+<!--     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+ -->
+    <!-- Compiled and minified JavaScript -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+  </header>
+
+</nav>
+
+    
+
+ <hr>
+    <div class ='container'>
+    	{% block odd15 %}
+      {% endblock %}
+    	{% block content %}
+      
+    	{% endblock %}
+    </div>
+    <div class ='container-fluid'>
+      
+
+      {% block bokeh %}
+
+      {% endblock %}
+
+      {% block contentreboisement %}
+      {% endblock %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+   <!-- Javascript files bokeh--> 
+ <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-2.0.0.min.js" crossorigin="anonymous"></script>
+            
+
+
+    
+  </body>
+</html>

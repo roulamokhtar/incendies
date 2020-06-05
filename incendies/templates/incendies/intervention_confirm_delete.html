@@ -1,0 +1,25 @@
+ {% extends 'incendies/layout.html' %}
+{% block content %} 
+  
+
+   <div class="container">
+     <h4>Suppression du flash d'incendies en cours...</h4>
+ <h6 class="center-align"> est vous sûre de supprimer  <span style="color: red"> cette intervention {{ intervention.id }}    </span>  </h6> 
+
+   <form method="post" id="interventionForm"  novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table}}
+    </table>
+<div class="center-align">
+  <button type="submit" class ="btn red ">delete</button>
+     <a href="{% url 'detail' intervention.incendie.id %}">Retour</a> 
+</div>
+    
+ 
+    
+
+   </form>
+</div>
+
+ {% endblock %}

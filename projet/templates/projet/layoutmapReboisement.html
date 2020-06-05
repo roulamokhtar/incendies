@@ -1,0 +1,253 @@
+{% extends 'projet/map.html' %}
+{% load static %}
+
+ {% block content %}
+<body>
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="{% url 'index' %}" role="tab"  ><i class="fa fa-github"></i></a></li>
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                
+
+                <h1 class="sidebar-header">
+                    Formulaire de recherche
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+   
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+              
+            <hr>
+          
+
+           <form method="POST" id ="foret-reboisement">
+            {% csrf_token %}
+                 <select id="dropdownReboisement">
+
+           <option value="ALL">Sélectionnez le reboisement</option>
+                      {% for reboisement in reboisements %}
+                              <option   value="{{ reboisement.id }}">{{ reboisement.name }}</option>
+                      {% endfor %}
+                              </select>
+             
+          <input type="button" value="Recherche" id="selection-button-reboisement"  ></input>
+          </form>
+            <hr>
+        <!-- partie canevas resultat-->
+<div class="col-12" >
+  <a class="btn btn-warning" data-toggle="collapse" href="#collapsemorpho" role="button" aria-expanded="false" aria-controls="collapseExample">Caréctéristiques   </a>
+    <div  class= "collapse" id="collapsemorpho">
+      <div id="divResult"></div>
+            <h5> Pente:<span id = 'image-opacity'></span></h5>
+            <input type="range" id='sldOpacity' min='0' max ='1' step='0.1' value='0'>
+            <h5> Ombrage:<span id = 'ombrage-opacity'></span></h5>
+            <input type="range" id='ombOpacity' min='0' max ='1' step='0.1' value='0'>
+            <h5> Forêts 2000 (source:Ansen et All):<span id = 'hansen-opacity'></span></h5>
+            <input type="range" id='hansenOpacity' min='0' max ='1' step='0.1' value='0'>
+
+            <h5> Forêt 2017 (source:Ansen et All):<span id = 'hansen17-opacity'></span></h5>
+            <input type="range" id='hansenOpacity17' min='0' max ='1' step='0.1' value='0'>
+
+            <h5> Pertes 2000 - 2018 (source:Ansen et All):<span id = 'pertes-opacity'></span></h5>
+            <input type="range" id='pertes' min='0' max ='1' step='0.1' value='0'>
+
+
+
+
+    </div>
+</div>
+<hr><hr>
+
+ 
+<div class="col-12" >
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExampleos" role="button" aria-expanded="false" aria-controls="collapseExample">
+  Résultat  </a>
+ 
+  <a href= "{% url 'reboisement_changelist' %}" class="btn btn-success">Page de reboisements</a> 
+  <div  class= "collapse" id="collapseExampleos">
+  <div id="divResult"></div>
+  <hr> 
+    <h7 style="text-align: center">Fiche d'identification et de suivi du  PSD</h7>
+    <h7 style="text-align: center"> plantation forestière <span id ="prog"></span> par impact Arrêté le  31/12/2019</h7>
+   <hr> 
+    <!--       table identification         -->
+
+    <table class="table table-bordered table-striped  table-hover " >
+      <thead class="header">
+        <tr>
+        <th colspan="2" style="color:green; text-align: left">I-Identification</th>
+        </tr>
+
+      </thead>
+      <tbody id="resultats_identification"></tbody>
+  </table>  
+  <!--     fin  table identification         -->
+  <!--        table Contractualisation         -->
+
+  <table class="table table-bordered table-striped  table-hover" >
+  <thead  class="header">
+  <tr>
+
+        <th style="color:green; text-align: left">II-Contractualisation </th>
+ 
+  </tr>
+  </thead>
+  <tbody id="resultats_contractualisation"></tbody>
+  </table>  
+  <!--       fin  table Contractualisation         -->
+<!--         table Description         -->
+  <table class="table table-bordered table-striped  table-hover" >
+  <thead  class="header">
+  <tr>
+
+        <th style="color:green; text-align: left">III-Description  </th>
+   </tr>
+  </thead>
+  <tbody id="resultats_description"></tbody>
+
+  </table>
+  <!--       fin  table Description         -->
+  <!--         table  Mise en Œuvre         -->
+<div class="table-responsive">
+  <table class="table table-bordered table-striped  table-hover table-sm " style="width:420px"> 
+  <thead  class="header">
+<tr >
+  <th  colspan="5" style="color:green; text-align: left">IV-Mise en Œuvre  </th>
+  </tr>
+
+  </thead>
+   <tr >
+   <th colspan="5" style="color:blue; text-align: left">IV-1 Physique:
+     </th>
+     
+   
+    </tr >
+  <tr >
+
+    <th >Espèces  </th>
+    <!-- <th >Nombre de plants antérieur  </th>
+    <th >Nombre de plants T4 2019  </th> -->
+    <th >Nombre de plants total   </th>
+    <th >Superficie totale (ha)  </th>
+  </tr>
+  </thead>
+  <tbody>
+     <td id ="espece"></td>
+     <!--  <td >Nombre de plants antérieur  </td>
+      <td >Nombre de plants T4 2019  </td> -->
+      <td id ="nbrplants">Nombre de plants total   </td>
+      <td id = "resultats_miseŒuvre_total_physique" ></td>
+   </tbody> 
+      
+     <!-- <tr>
+     <td>1</td>
+     <td>2</td>
+     <td>3</td>
+     <td>4</td>
+     <td>{% for key,value in sommePhysique.reboisementphysique__realisation_physique__sum %}{{ value }}{% endfor %}</td>
+     <td>
+     {% for f in sommePhysique %}
+    {{f}}
+    {% endfor %}
+    </td>
+
+       
+     </tr> -->
+     </tbody>
+<tr >
+  <th  colspan="5" style="color:blue; text-align: left">IV-2 Financier:
+    
+  </th>
+  </tr>
+
+  </thead>
+    
+  <tr >
+
+    <th nowrap >Montant prévu  </th>
+    <th nowrap >Montant  du mois (DA TTC)   </th>
+    <th nowrap>Montant cumulé (DA TTC)</th>
+    <th nowrap>RAR (DA TTC)  </th>
+     
+  </tr>
+  </thead>
+  <tbody>
+      <td id = "montant_prevu"></td>
+      <td id = "montant_mois"></td>
+      <td id = "resultats_miseŒuvre_total_finance" ></td>
+       <td id = "rar_finance" ></td>
+  </tbody>
+  </table>
+  <!--         fin table  Mise en Œuvre         -->
+  <!--         table  Mise en Œuvre financier         -->
+ 
+
+
+  </table>
+  </div>
+  <!--         fin table  Mise en Œuvre finanacier         -->
+    <!--         table  V-suivi du reboisement         -->
+
+  <table class="table table-bordered table-striped  table-hover"> 
+  <thead  class="header">
+  <tr >
+
+        <th style="color:green; text-align: left">V-suivi du reboisement</th>
+
+  </tr>
+  </thead>
+  <tbody id='filterPoint_eau'></tbody>
+
+  </table>
+    <!--         table  V-suivi du reboisement         -->
+
+
+  </div>
+</div>
+        <!-- fin partie canevas resultat-->
+
+
+
+              
+ 
+ 
+  
+              </div><!-- fin de la  side bar-->
+     </div>
+
+    <div id="map" class="sidebar-map"></div>
+
+     
+
+ 
+  
+  </div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'projet/layout.html' %}
+{% block content %} 
+  
+
+   <div class="container">
+     <h4>Suppression du reboisement physique en cours</h4>
+ <p> est vous sûre de supprimer  cette situation physique de <span style="color: red">  {{ object.reboisement.name }} </span>  </p> 
+   <form method="post" id="ReboisementphysiqueForm"  novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table}}
+    </table>
+
+    <button type="submit" class ="btn btn-danger">delete</button>
+ 
+    <a href="{% url 'reboisements_detail'  object.reboisement.id %}">Retour</a>
+
+   </form>
+</div>
+
+ {% endblock %}

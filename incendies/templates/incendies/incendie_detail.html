@@ -1,0 +1,295 @@
+{% extends 'incendies/layout.html' %}
+{% block content %} 
+{% load static %}
+
+ <div class="row">
+  <div class="col s4">
+      <div class="card" >
+          <div class="card-body">
+            <h4 class="card-title center-align">Fiche d'incendie</h4>
+            <h6 class="card-text">Lieu de l'incendie:<span style="color:green"> {{incendie.lieudit}}</span></h6>
+            <h6 class="card-text"> Commune:  <span style="color:green"> {{ incendie.commune }} </span></h6>
+            <h6 class="card-text"> Forêts : <span style="color:green"> {{ incendie.forets }} </span></h6>
+            <h6 class="card-text"> Lieu dit:<span style="color:green"> {{ incendie.lieudit }}</span> </h6>
+            <h6 class="card-text"> Latitude :<span style="color:green"> {{ incendie.Lat }}</span></h6>
+            <h6 class="card-text"> Longitude :<span style="color:green"> {{ incendie.Long }}</span></h6>
+            <h6 class="card-text"> Date de départ :<span style="color:green"> {{ incendie.heureDepart }}</span></h6>
+            <h6 class="card-text"> Date d'intervention:<span style="color:green"> {{ incendie.heureIntervention }}</span></h6>
+            <h6 class="card-text"> Date d'extinction :
+            {% if incendie.is_encours %}
+            <!-- <a href="" class="btn-floating btn-Tiny red "><i class=" material-icons">cancel</i></a> -->
+            <span style="color:red"> en cours</span>  
+            {% else %}
+            <span style="color:green">
+            {{ incendie.dateExt }}</span>          
+            {% endif %}
+            </h6>
+            <div class="center-align">
+              <!-- <a href="{% url 'incendies_index' %}" class ="btn-large btn-floating green darken-3"><i class="material-icons">home</i></a> -->
+              <a href="{% url 'incendie_delete' incendie.pk %}" class="btn-floating red "><i class=" material-icons">delete</i></a> 
+              <a href="{% url 'incendie_change' incendie.pk %}" class="btn-floating orange "><i class=" material-icons">mode_edit</i></a>
+              <!-- <a href="{% url 'cartofeux' %}" class ="btn-large btn-floating red darken-3"><i class="material-icons">add_location</i></a> -->
+            </div>
+          </div>
+      </div>
+  </div>
+   <!-- Partie des formulaires  -->
+
+      
+ <div class="col s8">
+ <div class="card">
+ <div class="card-body">
+             <h4 class="card-title center-align">Formulaire détails de l'incendie</h4>
+
+  <div class="row">
+   <div class="col s12">
+       <ul class="tabs">
+        <li class="tab col s3"><a class="active" href="#intervention">intervention</a></li>
+        <li class="tab col s3"><a href="#materielmobilise">Matériel mobilisé </a></li>
+        <li class="tab col s3"><a class="active" href="#formationincendie">Formation</a></li>
+        <li class="tab col s3"><a href="#degat">Dégats</a></li>
+      </ul>
+    </div>
+ </div>
+ </div>
+ </div>
+    <div class="row">
+  <div id="intervention" class="col s12" novalidat>
+   <form action="{% url 'add_intervention' incendie.id %}" method="post">
+      {% csrf_token %}
+      {{intervention_form.as_p}}
+      <input type="submit" class="btn" value=" Ajouter">
+  </form>
+ </div>
+  <div id="materielmobilise" class="col s12">
+  <form action="{% url 'add_materielmobilise' incendie.id %}" method="post">
+    {% csrf_token %}
+    {{Moyen_Form.as_p}}
+    <input type="submit" class="btn" value=" Ajouter">
+  </form>
+</div>
+  <div id="formationincendie" class="col s12">
+  <form action="{% url 'add_typeFormationincendie' incendie.id %}" method="post" id="TypeFormationincendie_Form" data-especes-url="{% url 'ajax_load_especes' %}" >
+    {% csrf_token %}
+    {{TypeFormationincendie_Form.as_p}}
+    <input type="submit" class="btn" value=" Ajouter">
+  </form>
+  </div>
+
+    <div id="degat" class="col s12">
+  <form action="{% url 'add_degat' incendie.id %}" method="post">
+    {% csrf_token %}
+    {{Degat_Form.as_p}}
+    <input type="submit" class="btn" value=" Ajouter">
+  </form>
+  </div>
+    </div>
+
+    </div>
+        </div>
+
+   
+<hr>
+
+<div class="row">
+
+      <div class="col s6">
+        <div class ="card">
+          <div class="card-body">
+            <table class=" table table-striped">
+              <h4 class="center-align">Moyens Humains mobilisés</h4>
+                <thead>
+                  <tr>
+                    <th>Organisme </th>
+                    <th>Agent</th>
+                    <th>nombre </th>
+                    <th> </th>
+                    <th> </th>
+                  <!-- <th>moyens Matériels</th>
+                  <th>Nombre de Matériels</th> -->
+                  </tr>
+                </thead>
+              <tbody>
+              {% for intervention in incendie.intervention_set.all %}
+                <tr>
+                  <td>{{intervention.organisme}}</td>
+                  <td>{{intervention.moyenshumain}}</td>
+                  <td>{{intervention.nombrehumain}}</td>
+                  <td> <a href="{% url 'intervention_delete' incendie.id intervention.id %}" class="btn-floating red "><i class=" material-icons">delete</i></a></td>
+            <td> <a href="{% url 'intervention_change' intervention.id %}" class="btn-floating orange "><i class=" material-icons">mode_edit</i></a></td>
+
+                <!-- <td> {{intervention.moyensmateriel}}</td>
+                <td> {{intervention.nombremateriel}}</td> -->
+                </tr>
+              {% endfor %}  
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+    <!-- fin de la premier -->
+
+  <div class="col s6">
+    <div class ="card">
+      <div class="card-body">        
+        <table class=" table table-striped">
+        <h4 class="center-align"> Matériels mobilisés</h4>
+          <thead>
+          <tr>
+          <th>Organisme</th>
+            <th>Matériels</th>
+            <th>Nombre</th>
+            <th> </th>
+            <th> </th>
+          </tr>
+          </thead>
+          <tbody>
+            {% for moyen in incendie.moyen_set.all %}
+            <tr>
+              <td> {{moyen.organisme}}</td>
+              <td> {{moyen.moyensmateriel}}</td>
+              <td> {{moyen.nombremateriel}}</td>
+              <td> <a href="{% url 'moyen_delete' incendie.id moyen.id %}" class="btn-floating red "><i class=" material-icons">delete</i></a></td>
+            <td> <a href="{% url 'moyen_change' moyen.id %}" class="btn-floating orange "><i class=" material-icons">mode_edit</i></a></td>
+            </tr> 
+            {% endfor %} 
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+ 
+    <!--  formulaire  pour  les type de Formation incendiés-->
+<div class="row">
+  <div class="col s6" >
+    <div class ="card">
+      <div class="card-body"> 
+        <table class=" table table-striped">
+        <h4 class="center-align">Type de Formation</h4>
+          <thead>
+            <tr>
+              <th>Type formation</th>
+              <th>Espèce</th>
+              <th>superficie </th>
+              <th> </th>
+              <th> </th>
+            </tr> 
+          </thead>
+          <tbody>
+            {% for typeformation in incendie.typeformationincendie_set.all %}
+              <tr>
+                <td>{{typeformation.typeformation}}</td>
+                <td>{{typeformation.espece}}</td>
+                <td>{{typeformation.sup}}</td>
+                <td> <a href="{% url  'typeformation_delete' incendie.id typeformation.id %}" class="btn-floating red "><i class=" material-icons">delete</i></a></td>
+            <td> <a href="{% url 'typeformation_change'   typeformation.id %}" class="btn-floating orange "><i class=" material-icons">mode_edit</i></a></td>
+
+              </tr>
+            {% endfor %}  
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div> <!-- fin col s6 -->
+
+    <div class="col s6" >
+      <div class="card"> 
+        <div class="card-body"> 
+          <table class=" table table-striped">
+          <h4 class="center-align " style="color:red">Dégats occasionnés</h4>
+            <thead>
+              <tr>
+                <th>Dégats</th>
+                <th>Nombre</th>
+                <th>Valeur (Da)</th>
+                <th> </th>
+              <th> </th>
+              </tr>
+            </thead>
+          <tbody>
+               {% for degat in incendie.degat_set.all %}
+              <tr>
+                <td>{{degat.typedegat}}</td>
+                <td>{{degat.nombre}}</td>
+                <td>{{degat.cout}}</td>
+                <td> <a href="{% url  'degat_delete' incendie.id degat.id %}" class="btn-floating red "><i class=" material-icons">delete</i></a></td>
+            <td> <a href="{% url 'degat_change'   degat.id %}" class="btn-floating orange "><i class=" material-icons">mode_edit</i></a></td>
+              </tr>
+              {% endfor %}  
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> <!-- fin col s6 -->
+   </div> <!-- fin row -->
+</div><!-- fin  -->
+  <!--  fin partie des objectifs spécifique disponible -->
+  <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+
+    <script>
+
+
+    $("#id_typeformation").change(function () {
+      var url = $("#TypeFormationincendie_Form").attr("data-especes-url");  // get the url of the `load_cities` view
+      var typeFormationId = $(this).val();  // get the selected country ID from the HTML input
+console.log(typeFormationId)
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'typeformation': typeFormationId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_espece").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+
+
+    $(document).ready(function(){
+
+
+           
+
+
+
+        $('.tabs').tabs();
+
+
+          var selectElMobilise = document.getElementById('id_moyensMobilise');
+          var selectElEspece = document.getElementById('id_espece');
+          var selectElTypeformation = document.getElementById('id_typeformation');
+          var selectOrganisme = $('#intervention #id_organisme');
+          var selectOrganisme1 = $('#materielmobilise #id_organisme');
+
+          var selectMoyenshumain = document.getElementById('id_moyenshumain');
+          var selectMoyensmateriel  = document.getElementById('id_moyensmateriel');
+          var selectTypeDegat = document.getElementById('id_typedegat');
+
+
+            M.FormSelect.init(selectElMobilise);
+            M.FormSelect.init(selectElEspece);
+            M.FormSelect.init(selectElTypeformation);
+            M.FormSelect.init(selectOrganisme);
+            M.FormSelect.init(selectOrganisme1);
+
+            M.FormSelect.init(selectMoyenshumain);
+            M.FormSelect.init(selectMoyensmateriel);
+            M.FormSelect.init(selectTypeDegat);
+
+
+
+    });
+      
+
+
+    </script>
+  {% endblock  %}

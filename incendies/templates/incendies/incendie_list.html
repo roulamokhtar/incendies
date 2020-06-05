@@ -1,0 +1,111 @@
+{% extends 'incendies/layout.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class ="right-align">
+ <a href="#" class="btn-floating btn-Tiny red "><i class=" material-icons">cancel</i></a> Incendie en cours.
+<a href="#" class="btn-floating btn-Tiny green"><i class=" material-icons">check_box</i></a> Incendie éteint
+
+</div>
+ 
+  <table id="dtBasicExample" class="striped">
+  <thead> 
+      <tr class="row">
+         <th >Wilaya</th>
+        <th >Commune</th>
+        <th >Forêts</th>
+        <th >Lieu-dit</th>
+        <th >Date de Départ </th> 
+        <th >Date d'Intervention </th>
+ 
+        <th >Etat</th>
+         <th >Détails</th> 
+         {% url 'incendie_create' as url %}
+ 
+  {% if request.path != url and    request.user.username != 'DGF'  %}
+        <th >Actualisé </th> 
+        <th >Supprimé </th> 
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody class="content">
+      {% for incendie in incendies %}
+      <tr>
+  			<td> {{ incendie.user  }} </td>
+   			<td>{{ incendie.commune }}</td>
+  			<td>{{ incendie.forets}}</td>
+  			<td>{{ incendie.lieudit}}</td>
+  			<td>{{ incendie.heureDepart }}</td>  
+  			<td>{{ incendie.heureIntervention }}</td> 
+ 
+           <td>
+           {% if incendie.is_encours %}
+           <!-- <span style="font-size: 2em; color: red;">
+   <i class="fas fa-circle"></i>
+</span> -->
+                         <!-- <img src="{% static 'incendies/images/259365_red-dot-png.jpg' %}" alt="My image">   -->
+ 
+            <a href="#" class="btn-floating btn-Tiny red "><i class=" material-icons">cancel</i></a>
+
+           {% else %}
+           <!-- <span style="font-size: 2em; color: green;">
+   <i class="fas fa-circle"></i></span> -->
+                     
+
+             <a href="#" class="btn-floating btn-Tiny green "><i class=" material-icons">check_box</i></a>
+          {% endif %}
+<!-- <a href="{% url 'cartofeux' %}" class =" red"><i class="fas fa-circle"></i></a> -->
+             </td>
+          
+         
+          
+  
+         <td> <a href="{% url 'detail' incendie.id %}" class="btn-floating blue "><i class=" material-icons">add</i></a></td>
+         {% url 'incendie_create' as url %}
+ 
+  {% if request.path != url and    request.user.username != 'DGF'  %}
+         <td> <a href="{% url 'incendie_change' incendie.pk %}" class="btn-floating orange "><i class=" material-icons">mode_edit</i></a></td>
+         <td> <a href="{% url 'incendie_delete' incendie.pk %}" class="btn-floating red "><i class=" material-icons">delete</i></a></td>
+ {% endif %}           
+            
+           
+        </td>
+
+           
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="12">Pas d'incendie dans la base de données. <a href="{% url 'incendie_create' %}">Ajouter le premier flash incendie</a>.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+ 
+
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{num}}">{{num}}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{num}}">{{num}}</a>
+
+        {% endif %}
+
+
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number  }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+{% endblock %}

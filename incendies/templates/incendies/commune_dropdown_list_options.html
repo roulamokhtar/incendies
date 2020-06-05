@@ -1,0 +1,10 @@
+<option id="id_commune" value="">---------</option>
+{% for commune in communes %}
+<option value="{{ commune.pk }}">{{ commune.name }}</option>
+{% endfor %}
+<script>
+	var selectCommune = document.getElementById('id_commune');
+ 
+      M.FormSelect.init(selectCommune);
+   
+</script>

@@ -1,0 +1,370 @@
+{% extends 'incendies/layout.html' %}
+
+{% block content %}
+<div class=row>
+<h5 class ="center-align">Situation actuelle</h5>
+  <div class = "col s6">
+ 
+  <table id="dtBasicExample" class="striped">
+  <thead> 
+      <tr class="row">
+         <th >Situation</th>
+        <th >superficie</th>
+      </tr>
+    </thead>
+    <tbody class="content ">
+              
+
+      <tr>
+        <td>En cours   </td>
+        <td> {{ superficieEncours.superficie_encours}} </td>          
+      </tr>
+      <tr>
+        <td>Maitrisé    </td>
+        <td>{{   superficieMairise.superficie_maitrise}}  </td>          
+      </tr>
+      <tr>
+        <td>Total    </td>
+        <td style="color:red"><strong>{{superficieTotal.superficie_total}}</strong></td>          
+      </tr>
+ 
+      
+         
+     </tbody>
+  </table>
+  </div>
+
+   <div class = "col s6">
+   <table id="dtBasicExample" class="striped center-align">
+  <thead> 
+      <tr class="row">
+      <th > Situation</th>
+         <th > Nbr de Foyer</th>
+      </tr>
+    </thead>
+    <tbody class="content">
+              
+
+      <tr>
+        <td>En cours   </td>
+        <td> {{ nombreFoyerEncours.nombre_encours}} </td>          
+      </tr>
+      <tr>
+        <td>Maitrisé    </td>
+        <td>{{   nombreFoyerMairise.nombre_maitrise}}  </td>          
+      </tr>
+      <tr>
+        <td>Total    </td>
+        <td style="color:red"><strong>{{nombreFoyerTotal.nombre_total}}</strong></td>
+                  
+      </tr>
+ 
+      
+         
+     </tbody>
+  </table>
+  </div>
+  </div>
+ <h5 class ="center-align">
+  {% if request.user.username != 'DGF' %}
+          Détail par Communes
+
+         {% else %}
+         Détails par  Wilaya
+         {% endif %}
+         </h5>
+
+<div class="row">
+ <div class = "col s6">
+  <table id="dtBasicExample" class=" center-align highlight"  >
+  <thead> 
+      <tr class="row">
+         <th class=" center-align">
+         {% if request.user.username != 'DGF' %}
+          Commune
+         {% else %}
+         Wilaya
+         {% endif %}
+         </th>
+        <th class=" center-align">Foyer incendies</th>
+      </tr>
+    </thead>
+    <tbody class="content">
+      {% for incendie in nombrefoyer %}
+      <tr>
+  			<td class=" center-align"> {{ incendie.name  }} </td>
+   			<td class=" center-align">{{ incendie.dcount }}</td>          
+      </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">Pas d'incendie dans la base de données. <a href="{% url 'incendie_create' %}">Ajouter le premier flash incendie</a>.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  <div class = "col s6">
+  <table id="dtBasicExample" class="striped">
+  <thead> 
+      <tr class="row">
+         <th >
+         {% if request.user.username != 'DGF' %}
+          Commune
+         {% else %}
+         Wilaya
+         {% endif %}
+         </th>
+        <th >Superficie incendies</th>
+      </tr>
+    </thead>
+    <tbody class="content">
+      {% for incendie in superficie %}
+      <tr>
+        <td> {{ incendie.name  }} </td>
+        <td>{{ incendie.superficie }}</td>          
+      </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">Pas d'incendie dans la base de données.  
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+ 
+
+
+ </div>
+
+ <div class=row>
+<h5 class ="center-align"> Evolution par mois</h5>
+  <div class = "col s6">
+ 
+  <table id="dtBasicExample" class="striped">
+  <thead> 
+      <tr class="row">
+         <th >Mois</th>
+        <th >Superficie incendiée / Mois</th>
+      </tr>
+    </thead>
+    <tbody class="content ">
+              
+
+
+      <tr>
+        <td>juin  </td>
+        <td> {{ sup_juin.superficie_total}} </td>          
+      </tr>
+      <tr>
+        <td>juil  </td>
+        <td> {{ sup_juil.superficie_total}} </td>          
+      </tr>
+      <tr>
+        <td>août  </td>
+        <td> {{ sup_aout.superficie_total}} </td>          
+      </tr>
+      <tr>
+        <td>sept  </td>
+        <td> {{sup_sept.superficie_total}} </td>          
+      </tr>
+      
+      <tr>
+        <td>Total général   </td>
+                 <td style="color:red"><strong>{{superficieTotal.superficie_total}}</strong></td>          
+        
+      </tr>
+ 
+      
+         
+     </tbody>
+  </table>
+  </div>
+
+   <div class = "col s6">
+ 
+  <table id="dtBasicExample" class="striped">
+  <thead> 
+      <tr class="row">
+         <th >Mois</th>
+        <th >Nombre incendiée / Mois</th>
+      </tr>
+    </thead>
+    <tbody class="content ">
+              
+
+
+      <tr>
+        <td>juin  </td>
+        <td> {{ nbr_juin.nombre}} </td>          
+      </tr>
+      <tr>
+        <td>juil  </td>
+        <td> {{ nbr_juil.nombre}} </td>          
+      </tr>
+      <tr>
+        <td>août  </td>
+        <td> {{ nbr_aout.nombre}} </td>          
+      </tr>
+      <tr>
+        <td>sept  </td>
+        <td> {{nbr_sept.nombre}} </td>          
+      </tr>
+      
+      <tr>
+        <td>Total général   </td>
+        <td style="color:red"><strong>{{nombreFoyerTotal.nombre_total}}</strong></td>
+        
+      </tr>
+ 
+      
+         
+     </tbody>
+  </table>
+  </div>
+
+  <!--   -->
+<div class=row>
+<h5 class ="center-align"> Incendies par formation</h5>
+    <div class = "col s4">
+  <table id="dtBasicExample" class="striped">
+  <thead> 
+      <tr class="row">
+         <th >
+          Formation
+         </th>
+          <th >Superficie incendies</th>
+ 
+      </tr>
+    </thead>
+    <tbody class="content">
+      {% for espece in superficieformation %}
+      <tr>
+        <td> {{ espece.name  }} </td>
+        <td>{{ espece.superficie }}</td>
+ 
+      </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">Pas d'incendie dans la base de données.  
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+    <div class = "col s4">
+    <table class="striped">
+     <thead> 
+      <tr class="row">
+           <th >Formation</th>
+           <th >% incendies</th>
+ 
+      </tr>
+    </thead>
+    <tbody class="content">
+    {%  for key, values  in dict_of_percentages.items %}
+
+      <tr>
+         <td>{{key}}</td> <td style="color:red">{{values|floatformat:2 }} %</td>
+      
+ </tr>
+ 
+</tbody>
+ {% endfor %}
+  </table>
+
+  </div>
+
+     <div class = "col s4">
+    <table class="striped">
+     <thead> 
+      <tr class="row">
+           <th >Espece</th>
+           <th >% incendies</th>
+ 
+      </tr>
+    </thead>
+    <tbody class="content">
+    {%  for key, values  in dict_of_percentages_espece.items %}
+
+      <tr>
+         <td>{{key}}</td> <td style="color:red">{{values|floatformat:2 }} %</td>
+      
+ </tr>
+ 
+</tbody>
+ {% endfor %}
+  </table>
+
+  </div>
+
+
+  </div>
+  
+ 
+ <div class="row">
+   
+  <!-- <table id="dtBasicExample" class="striped">
+  <thead> 
+      <tr class="row">
+         <th >
+          Formation
+         </th>
+         <th >superficie_total</th>
+         <th > Superficie par espece</th>
+            <th >Pourcentage incendies</th>
+ 
+      </tr>
+    </thead>
+    <tbody class="content">
+  {% for formation in superficieformation %}
+      <tr>
+        <td> {{ formation.name  }}  </td>
+        <td> {{ superficieTotal.superficie_total  }}  </td>
+        <td> {{ formation.superficie  }}  </td>
+        <td> {% widthratio  formation.superficie superficieTotal.superficie_total  100   %} % </td>
+  
+      </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">Pas d'incendie dans la base de données.  
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table> -->
+ </div>
+
+
+
+ <h5 class ="center-align">Incendies par espece</h5>
+
+
+
+
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{num}}">{{num}}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{num}}">{{num}}</a>
+
+        {% endif %}
+
+
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number  }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+{% endblock %}

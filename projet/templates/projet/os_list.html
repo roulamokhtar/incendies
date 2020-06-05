@@ -1,0 +1,37 @@
+*{% extends 'projet/layout.html' %}
+{% block content %} 
+ <div class="float-right">
+      <a href="{% url 'projet_add'  %}" class ="btn btn-success">Nouveau projet</a>
+</div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Objectif specifique</th>
+       </tr>
+    </thead>
+    <tbody>
+      {% for os in oss %}
+        <tr>
+          <td> {{ os.name }} </td>
+          <td>
+            <a href="" class="btn btn-success">Détails</a>
+            <a href="" class="btn btn-danger">Supprimer</a>
+            <a href="" class="btn btn-warning">Update</a>
+          </td>
+
+           
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No ojectif specifique in the database. <a href="{% url 'projet_add' %}">Add the first projet</a>.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+ {% endblock %}
+  
+
+<!-- {% url 'ajax_load_cities' %}
+ --> 
+<!--  {% url 'ajax_load_resultats' %} -->

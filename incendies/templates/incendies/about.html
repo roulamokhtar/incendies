@@ -1,0 +1,41 @@
+{% extends 'incendies/layout.html' %}
+
+{% block content %}
+        
+  <h1></h1>
+    <div class="row">
+        <div class="col s4">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">Tableau de synthèse</span>
+                  <p>Situation des incendies et canevas...</p>
+                  <div class ="card-action"> 
+                <a href="{% url 'synthese' %}" class="btn btn-success">Voir</a>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">Tableau de Bord</span>
+                  <p>Statistiques et histogrammes</p>
+                  <div class ="card-action"> 
+                <a href="{% url 'nombrefoyergraph' %}" class="btn btn-success">Voir</a>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">base de donnée</span>
+                  <p>flash incendies et base de données</p>
+                  <div class ="card-action"> 
+                <a href="{% url 'incendies_index' %}" class="btn btn-success">Voir</a>
+                  </div>
+              </div>
+            </div>
+        </div>   
+    </div>
+ {% endblock %}

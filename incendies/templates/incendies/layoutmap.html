@@ -1,0 +1,74 @@
+{% extends 'incendies/map.html' %}
+
+{% block content %}
+<body>
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                 <!-- <li><a href="{% url 'index' %}" role="tab"  ><i class="fa fa-home"></i></a></li> -->
+                  <!-- <li><a href="{% url 'index' %}" role="tab"  ><i class="fa fa-home"></i></a></li> -->
+
+                 <!-- <li><a href="{% url 'incendies_index' %}" role="tab"  ><i class="fa fa-fire "></i></a></li> -->
+ <li><a href="{% url 'incendies_index' %}" class ="btn btn-floating red darken-3"><i class="material-icons">home</i></a></li>
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa fa-user"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                
+
+                <h1 class="sidebar-header">
+                    Formulaire de recherche
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+   
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+              
+            <hr>
+
+
+
+
+
+
+
+              
+ 
+ 
+  
+              </div><!-- fin de la  side bar-->
+     </div>
+
+    <div id="map" class="sidebar-map"></div>
+
+     
+
+ 
+  
+  </div>
+
+
+{% endblock %}

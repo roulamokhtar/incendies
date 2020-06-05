@@ -1,0 +1,110 @@
+{% extends 'projet/layout.html' %}
+{% block content %} 
+<div class="container">
+<div class="row">
+  <div class="col-4">
+ 
+            <div class="card" ">
+              <div class="card-body">
+
+                <h6 class="card-title"> Titre du projet:  <span style="color:green">   {{ projet.titre }} </span> </h6>
+                  
+                <h6 class="card-title"> Commune:  <span style="color:green"> {{ projet.commune }} </span></h6>
+                 <h6 class="card-title" > Objectif Global: </h6>
+                                    <div class = "card-text">
+                                    <span style="color:green">{{ projet.objectifglobal}}</span> 
+                                    </div>
+                <h6 class="card-title"> Lieu dit:<span style="color:green"> {{ projet.lieu_dit }}</span> </h6>
+          <h6 class="card-title"> Menage : <span style="color:green"> {{ projet.menage }} </span></h6>
+                 <h6 class="card-title"> Année :<span style="color:green">{{ projet.annee }}</span></h6>
+ 
+
+                <a href="{% url 'projet_add'  %}" class="btn btn-success">Add</a>
+                <a href="{% url 'projet_delete' projet.pk %}" class="btn btn-success">delete </a>
+                <a href= "{% url 'projet_change' projet.pk %}" class="btn btn-success">Update</a>
+                 <a href= "{% url 'projet_change' projet.pk %}" class="btn btn-danger">IOV</a>
+
+              </div>
+            </div>
+
+
+</div>
+  <!-- fin de la partie de fiche de projet -->
+
+<!-- partie des objectifs spécifique disponible -->
+<div class="col-4" >
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExampleos" role="button" aria-expanded="false" aria-controls="collapseExample">
+     objectifs specifique disponibles
+  </a>
+  
+  
+          <div   id="collapseExampleos">
+               {% if obspecifiques.count %}
+                {% for obspecifique in obspecifiques.all %}
+                 <div class = "card">
+                  <div class = "card-text">
+                    <span class = "card-title">
+                       <span style="color:red">{{obspecifique.name}}</span>
+                    </span>
+                  </div>
+                 </div>
+                 <div class ="card-footer">
+                     
+
+                  <form action="{% url 'assoc_os' projet.id  obspecifique.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class ="btn-primary"> Ajouter</button>
+                  </form>
+                 </div>
+                 {% endfor %}
+
+              {% else %}
+              <h6> {{projet.titre}} a déja tous les objectifs spécifique </h6>
+              {% endif %}
+            </div>
+  </div>
+
+
+  </div>
+  <!--  fin partie des objectifs spécifique disponible -->
+
+   <hr>
+    <div class="row">
+          
+            <div class="col-12" >
+              <div class="card" >
+               
+                  {% if projet.objectifspecifique.count %}
+                    {% for os in projet.objectifspecifique.all %}
+                       <div class = "card">
+                        <div class = "card-text">
+                          <span class = "card-title">
+                             <a href="{% url 'projets_detail_res' projet.pk  os.id   %}" class="btn btn-success">Détails </a>
+
+                             <!-- <form action="{% url 'remove_os' projet.id  os.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class ="btn-danger"> Supprimer</button>
+                  </form> -->
+                  
+                             <a href="{% url 'remove_os' projet.id  os.id %}" class="btn btn-danger">Supprimer</a>
+                            <span style="color:red">Os{{os.id}}: {{os.name}}</span>
+                          </span>
+                        </div>                         
+                       </div>
+
+                    </div>
+                    {% endfor %}
+ 
+                {% else %}
+              <h6> Pas d'objectif specifique pour ce projet</h6>
+                {% endif %}
+            </div>
+            </div>
+
+   
+
+      </div> 
+
+</div>
+   
+  {% endblock %}

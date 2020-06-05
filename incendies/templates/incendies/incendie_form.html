@@ -1,0 +1,108 @@
+{% extends 'incendies/layout.html' %}
+{% block content %}
+{% load static %}
+ 
+
+<form    method ="post" id="incendieForm"  data-communes-url="{% url 'ajax_load_communes' %}"   novalidate>
+{% csrf_token %}
+<table>
+	{{form.as_table}}
+	
+</table>
+<input type="submit" value="Envoyer" class ="btn">
+	    <a href="{% url 'incendies_index' %}">Retour</a>
+
+</form>
+<!-- Compiled and minified CSS -->
+<style type="text/css">
+  .daterangepicker select {
+
+  display:inline-block;
+} 
+</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+<!--     Compiled and minified JavaScript--> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+
+    <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js"></script>
+ 
+ 
+
+<script> 
+  
+    $("#id_wilaya").change(function () {
+      var url = $("#incendieForm").attr("data-communes-url");  // get the url of the `load_cities` view
+      var wilayaId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'wilaya': wilayaId 
+         },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+           $("#id_commune").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+ 
+
+
+   
+
+
+
+var selectCommune = document.getElementById('id_commune');
+M.FormSelect.init(selectCommune);
+
+var selectWilaya = document.getElementById('id_wilaya');
+M.FormSelect.init(selectWilaya);
+
+var selectUser = document.getElementById('id_user');
+M.FormSelect.init(selectUser);
+//////////////////////////////////////////////////////////////////////////////////////:
+
+var selectDateDepart = document.getElementById('id_dateDepart');
+ M.Datepicker.init(selectDateDepart,{
+                    datepicker:true,
+                    format:'yyyy-mm-dd',//formatDate
+                    });
+var selectHeureDepart = document.getElementById('id_heureDepart');
+ M.Timepicker.init(selectHeureDepart,{
+                    default:'now',
+                    twelveHour: false,
+                    ampmclickable:true,
+                     });
+///////////////////////////////////////////
+var selectDateIntervention = document.getElementById('id_dateIntervention');
+ M.Datepicker.init(selectDateIntervention,{
+                    datepicker:true,
+                    format:'yyyy-mm-dd',//formatDate
+                    });
+var selectHeureIntervention = document.getElementById('id_heureIntervention');
+ M.Timepicker.init(selectHeureIntervention,{
+                    default:'now',
+                    twelveHour: false,
+                    ampmclickable:true,
+                     });
+ //////////////////////////////////////////
+ var selectDateExt = document.getElementById('id_dateExt');
+ M.Datepicker.init(selectDateExt,{
+                    datepicker:true,
+                    format:'yyyy-mm-dd',//formatDate
+                    });
+var selectHeureExt = document.getElementById('id_heureExt');
+ M.Timepicker.init(selectHeureExt,{
+                    default:'now',
+                    twelveHour: false,
+                    ampmclickable:true,
+                     });
+ //////////////////////////////////////////
+
+
+ </script>
+  
+{% endblock %}

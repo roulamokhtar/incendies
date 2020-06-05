@@ -1,0 +1,12 @@
+<option id="id_espece">---------</option>
+{% for espece in especes %}
+<option value="{{ espece.pk }}">{{ espece.name }}</option>
+
+<script type="text/javascript">
+	var selectElEspece = document.getElementById('id_espece');
+	M.FormSelect.init(selectElEspece);
+
+</script>
+         
+
+{% endfor %}

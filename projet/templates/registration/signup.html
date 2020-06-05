@@ -1,0 +1,16 @@
+{% extends 'incendies/layout.html' %}
+
+{% block content %}
+<h1>Sign Up</h1>
+<!-- Add the login form -->
+{% if error_message %}
+<p style="color:red" >{{ error_message }}</p>
+
+{% endif %}
+<form  method ="POST" action="{% url 'signup' %}">
+	{% csrf_token %}
+	{{  form.as_p }}
+	<input type="submit" class ="btn-success" value = "signup" >
+</form>
+
+{% endblock %}

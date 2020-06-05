@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+ 
+<head>
+    <title>Map</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<!--     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+ -->
+    <!-- Load   Leaflet css from local file   -->
+     <link rel="stylesheet" href="{% static 'projet/css/leaflet.css' %}">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+
+
+        <!-- Bootstrap CSS from internet -->
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+ <!-- Bootstrap CSS from local file -->
+<!--  <link rel="stylesheet" href="{% static 'projet/css/bootstrap.min.css' %}">
+ -->
+   
+
+ <link rel="stylesheet" href="{% static 'projet/css/Leaflet.Coordinates-0.1.5.css' %}">
+ <link rel="stylesheet" href="{% static 'projet/js/Leaflet.Coordinates-0.1.5.min.js' %}">
+
+ <link rel="stylesheet" href="{% static 'projet/css/leaflet-sidebar.min.css' %}">
+<link rel="stylesheet" href="{% static 'projet/css/leaflet.extra-markers.min.css'%}">
+<link rel="stylesheet" href="{% static 'projet/css/leaflet-search.min.css'%}">
+<link rel="stylesheet" href="{% static 'projet/css/MarkerCluster.css'%}">
+<link rel="stylesheet" href="{% static 'projet/css/MarkerCluster.Default.css'%}">
+<link rel="stylesheet" href="{% static 'projet/css/Leaflet.Coordinates-0.1.5.css'%}">
+
+
+
+   <link rel="stylesheet"  href="{% static 'projet/css/myStyle.css' %}">
+
+ 
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+        .lorem {
+            font-style: italic;
+            color: #AAA;
+        }
+    </style>
+    
+<!-- <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script> -->
+
+       <script src="{% static 'projet/js/leaflet.js' %}"></script>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+<!-- Load Esri Leaflet from CDN.  it has no .css stylesheet of its own, only .js -->
+  <script src="https://unpkg.com/esri-leaflet@2.3.0/dist/esri-leaflet.js"
+    integrity="sha512-1tScwpjXwwnm6tTva0l0/ZgM3rYNbdyMj5q6RSQMbNX6EUMhYDE3pMRGZaT41zHEvLoWEK7qFEJmZDOoDMU7/Q=="
+    crossorigin=""></script>
+
+
+       <script src="{% static 'projet/js/leaflet-providers.js' %}"></script>
+    <!--[if lte IE 8]><link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.ie.css" /><![endif]-->
+<!--     <script type="text/javascript" src="{% static 'projet/js/Bing.js' %}"></script>
+ -->    <script src="{% static 'projet/js/leaflet-sidebar.min.js' %}"></script>
+    <script src="{% static 'projet/js/leaflet.extra-markers.min.js' %}"></script>
+    <script src="{% static 'projet/js/leaflet-search.src.js' %}"></script>
+        <script src="{% static 'projet/js/leaflet.markercluster.js' %}"></script>
+<script src="{% static 'projet/js/Leaflet.Coordinates-0.1.5.min.js' %}"></script>
+  <!--     <script src="{% static 'projet/data/c.geojson' %}"></script>
+ -->  <script type="text/javascript" src="{% static 'projet/js/leaflet.ajax.min.js' %}"></script>
+<!--       <script type="text/javascript" src="{% static 'projet/js/jquery.js' %}"></script>
+ -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ </head>
+<body>
+{% block content %}
+{% endblock %}
+ 
+
+     
+ </body>
+ 
+ <script type="text/javascript" language="javascript"  >
+
+var canton_result;
+var canton_result1;
+var nonSelect;  
+var Select  ;
+ 
+
+$(document).ready(function(){
+ 
+ 
+  // zoom_map = [algerie.Long,algerie.Lat];
+  // console.log(zoom_map);
+
+    var map = L.map('map');
+       getData();
+        getPositions();
+        
+ 
+    // [response.features.properties.Long,response.features.properties.Lat ]
+    var openstreetmap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  attribution: 'Map data &copy; OpenStreetMap contributors'
+    }).addTo(map);        
+    // Streets Topographic Gray DarkGray,ShadedRelief
+// var tt =  L.tileLayer('https://drive.google.com/open?id=1O8w1uXtWwE0BuyVAvPzRHfJRBaUoHt6W').addTo(map);
+    var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                      maxZoom: 17,
+                      attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    });
+ feux =L.geoJSON.ajax("{% url 'feux' %}");
+ 
+
+ // for (var i = 0; i < feux.length; i++) {
+ //      var markerLocation = new L.LatLng(feux[i].Lat, feux[i].Long);
+ //       console.log(markerLocation);
+
+ //      var point_feux = new L.Marker(markerLocation);
+ //       map.addLayer(point_feux);
+
+ //     }
+
+ async function getPositions(){
+   const position = await fetch('{% url "algerie" %}');
+   uu = await position.json();
+   if (uu.features[0].properties.name != 'DGF')
+    var zoom =10
+  else {
+    var zoom =7
+  }
+    
+    // console.log(uu.features[0].properties.Lat);
+       x = uu.features[0].properties.Lat;
+      y = uu.features[0].properties.Long;
+      map.setView([x, y], zoom);//Lat Long
+ 
+}
+ async function getData(){
+    const  response = await fetch('{% url "feux" %}');
+        
+
+    const   data = await response.json();
+
+      for(item of data) {
+             if(item.dateExt == '2020-06-01 00:00:00'){
+                          var colorICON= redIcon;
+                        var etat = "En cours"
+                  }else{
+var colorICON= greenIcon;
+ var etat = item.dateExt.toString() ;
+            }
+               
+      
+              
+
+            
+             L.marker([item.Lat, item.Long],{icon: colorICON}).addTo(map)
+             .bindPopup(
+              '<p><strong> <font size="2" color="blue">Incendie: </font>'+'<font size="2" color="red">'+item.lieudit.toString()+'<p>'+
+              '<p><strong> <font size="2" color="blue">Départ : </font>'+ '<font size="2" color="red">'+item.heureDepart.toString()+'<p>'+
+              '<p><strong> <font size="2" color="blue">Intervention : </font>'+'<font size="2" color="red">'+item.heureIntervention.toString()+'<p>'+
+
+              '<p><strong> <font size="2" color="blue">Extinction : </font>'+'<font size="2" color="red">'+etat +'<p>')
+     }
+
+      // L.marker([data.features[0].properties.Lat, data.features[0].properties.Long]).addTo(map);
+ }
+    
+       
+
+      // L.marker([data.features[0].properties.Lat, data.features[0].properties.Long]).addTo(map);
+ 
+
+    L.control.coordinates().addTo(map);
+//add configured controls
+    L.control.coordinates({
+      position:"bottomleft",
+      decimals:6,
+      decimalSeperator:",",
+      labelTemplateLat:"Latitude: {y}",
+      labelTemplateLng:"Longitude: {x}"
+    }).addTo(map);
+
+    var esri =  L.esri.basemapLayer('Imagery');
+    var Topographic =  L.esri.basemapLayer('NationalGeographic');
+    var sidebar = L.control.sidebar('sidebar').addTo(map);
+
+    // construction des chesouc geojson cantons et filtrage
+
+ 
+limite_communes =   L.geoJSON.ajax("{% url 'limite_commune' %}" ,{onEachFeature: bindLimite_commune ,  style:StyleLimite_commune});
+
+
+
+
+    localites =   L.geoJSON.ajax("{% url 'localites' %}",{
+                    pointToLayer: function(feature,latlng){
+                                    var marker = L.marker(latlng,{icon: icon_house});
+                                    marker.bindPopup(feature.properties.name );
+                                    return marker;
+                                  },
+                                   });
+      ///////////////////markerclusterer//////////////////////
+ 
+ 
+ 
+    function bind (feature,layer){
+    layer.bindPopup('<p><strong> <font size="2" color="blue">'+feature.properties.name.toString()+'<p>'+ '<p><strong> <font size="2" color="blue">Foret domaniale : '+feature.properties.layer.toString()+'<p>' )
+    }
+    function bindFeux (feature,layer){
+    layer.bindPopup('<p><strong> <font size="2" color="blue">'+feature.properties.name.toString()+'<p>' )
+    }
+
+    function bindBrigade (feature,layer){
+            layer.bindPopup("<p><strong><font size='2' color='blue'>Brigade forestière :"+feature.properties.name.toString())+"</strong><p>"  
+    }
+
+    function bindLimite_commune (feature,layer){
+            layer.bindPopup(feature.properties.name.toString())
+    }
+    function bindLocalites (feature,layer){
+layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.properties.name.toString())+"</strong><p>"      } 
+    ////////////////////////////fin functionbindPopup////////////////////////////
+
+    /////////////////////////////layerGroup VARIABLES ////////////////////////
+      var openstreetmap =   L.layerGroup([openstreetmap]);
+      var esri =   L.layerGroup([esri]);
+      // var tpf =   L.layerGroup([tpf ]);
+      var limite_communes = L.layerGroup([limite_communes]);
+      var localites = L.layerGroup([localites]);
+      var feux = L.layerGroup([feux]);
+      // var forest = L.layerGroup([forest]);//forest variable gee
+      var searchLayer = L.layerGroup().addTo(map);
+      //... adding data in searchLayer ...    searchLayer is a L.LayerGroup contains searched markers
+      map.addControl( new L.Control.Search({layer:limite_communes}));
+      ////////////////////////// FIN layerGroup VARIABLES////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////
+      /////////////////////// overlayMaps AND CONTROL LAYER VARIABLES///////
+     
+    var overlayMaps2 = {
+        "Open street map":  openstreetmap,
+        "Google Imagery":  esri,
+        // "Topographic":Topographic,
+          "OpenTopoMap":OpenTopoMap
+    }; 
+
+    var overlayMaps3 = {
+         
+         "communes":  limite_communes,
+          "Localités" : localites,
+             };
+             
+ var controle_layer = L.control.layers(  overlayMaps2,overlayMaps3).addTo(map);
+
+
+
+   /// /////fin de document ready functions  ////////////////////////////////////////    
+
+          });
+
+            var icon_eau= L.icon({
+              iconUrl:     'http://leafletjs.com/docs/images/leaf-green.png'  ,
+              shadowUrl:'http://leafletjs.com/docs/images/leaf-shadow.png',           
+            });
+
+            var icon_eau1= L.icon({
+              iconUrl: '{% static "projet/images/waterdrop.png" %}' ,       
+            });
+
+            var icon_house= L.icon({
+             iconUrl: '{% static "projet/images/cottage.png" %}' ,       
+            });
+
+     
+         
+
+          function StyleLimite_commune(feature){
+              return{
+              fillColor:'NONE',
+              weight: 3,
+              opacity:1,
+              color:'black'
+              }
+          }
+
+          // color:'green',dashArray:'5.5',fillOpacity:0.7
+ 
+ function resetFormReboisement() {
+        document. getElementById("foret-reboisement").reset();
+        }
+          var redIcon = new L.Icon({
+              iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/images/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+          });
+
+          var yellowIcon = new L.Icon({
+              iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
+              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/images/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+          });
+
+          var greenIcon = new L.Icon({
+              iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/images/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+          });
+
+          // Creates a red marker with the coffee icon
+// fas fa-dove fa-pulse
+
+          var redMarker = L.ExtraMarkers.icon({
+              icon: 'fa-spinner',
+              markerColor: 'red',
+              shape: 'circle',
+               
+          });
+  //         var redMarker = L.AwesomeMarkers.icon({
+  //   icon: 'fa-coffee',
+  //   markerColor: 'red',
+  //   shape: 'square',
+  //   prefix: 'fa'
+  // });
+  ////////////////////////////
+function getLocalite(localites){
+  return   localites;
+}
+
+           //////////////////////////////////////////////////////////////////////
+        
+        
+    
+            
+            
+    </script>
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<!-- 4/sAEUBCTI4Edd5HpcwhVjZyKVasiOmVe6EYdU34JNdRFc0Vd0Ln8yHaU
+ -->
+ <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb4zkM4A_4LPifJAWMQFEgeGVmgBDwt2U"
+            async defer></script> -->
+
+  </body>
+</html>
+ 

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+
+   <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+ 
+<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.css" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.css" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.bokeh.org/bokeh/release/bokeh-api-2.0.0.min.css" crossorigin="anonymous"> -->
+ 
+    <!-- Compiled and minified JavaScript -->
+  <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+     
+      <!--Let browser know website is optimized for mobile-->
+       <title>Gestion des incendies</title>
+    </head>
+ 
+  <body>
+ 
+     <header class ="navbar ">
+    <nav> 
+    <div class ="nav-wrapper  align-self-xl-auto"> 
+      <ul>
+<li><a href="{% url 'about_incendies' %}" class="left brand-logo">&nbsp;&nbsp;Gestiondes Incendies</a></li>
+      </ul>
+      {% if user.is_authenticated %}
+      <ul class = "right">
+        <li><a class="nav-link" href="{% url 'projet_changelist' %}">Projet <span class="sr-only">(current)</span></a></li>
+        <li><a  href="{% url  'odd15' %}">ODD 15</a></li>
+        <li><a  href="{% url  'sf2035' %}">Stratégie Forestière 2035</a></li>
+        <li><a  style="color:black"  href="#">{{user}}</a></li>
+        <li><a  href="{% url  'logout' %}">Déconnexion</a></li>
+       {% else %}
+        <li><a href="{% url  'signup' %}">S'identifier</a></li>
+        <li><a href="{% url  'login' %}">Connexion </a></li>
+  {% endif %}
+ 
+      </ul>
+     </div>
+  </nav>
+  </header>
+  <div class="center-align">
+  {% url 'synthese' as url %}
+   {% if request.path != url  %}
+<a href="{% url 'synthese' %}" class ="btn-large tooltipped btn-floating  waves-effect waves-light"   data-position="bottom" data-tooltip="Voir bilan des incendies">Bilan</a>
+   {% endif %} 
+
+ {% url 'incendie_create' as url %}
+ 
+  {% if request.path != url and    request.user.username != 'DGF'  %}
+   
+
+      <a href="{% url 'incendie_create' %}" class ="btn-large tooltipped btn-floating  red darken-3 " data-position="bottom" data-tooltip="Ajouter flash incendie"><i class="material-icons ">add</i></a>
+ 
+ {% endif %} 
+
+ {% url 'nombrefoyergraph' as url %}
+   {% if request.path != url  %}  
+
+ <a href="{% url 'nombrefoyergraph' %}" class="btn-large tooltipped orange btn-floating" data-position="bottom" data-tooltip="Voir les Histogrammes"><i class=" material-icons">insert_chart</i></a> 
+  {% endif %} 
+
+ {% url 'cartofeux' as url %}
+   {% if request.path != url  %}  
+
+ <a href="{% url 'cartofeux' %}" class ="btn-large btn-floating tooltipped orange darken-3" data-position="bottom" data-tooltip="Voir la cartographie"><i class="material-icons">add_location</i></a>
+  {% endif %} 
+
+ {% url 'incendies_index' as url %}
+   {% if request.path != url  %}  
+
+  <a href="{% url 'incendies_index' %}" class ="btn-large btn-floating tooltipped green darken-3" data-position="bottom" data-tooltip="Voir la base de données"><i class="material-icons">home</i></a>
+  {% endif %} 
+
+      
+      
+</div>
+   
+
+ <hr>
+    <div class ='container'>
+    	{% block odd15 %}
+      {% endblock %}
+    	{% block content %}
+      
+    	{% endblock %}
+    </div>
+    <div class ='container-fluid'>
+      {% block contentSYNTHESE %}
+      {% endblock %}
+
+      {% block contentHistogramme %}
+      {% endblock %}
+      
+      {% block bokeh %}
+
+      {% endblock %}
+
+      {% block contentreboisement %}
+      {% endblock %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+   <!-- Javascript files bokeh--> 
+ <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.js"  ></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.js"  ></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.0.min.js"  "></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-2.0.0.min.js"  "></script>
+            
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   
+ 
+ 
+   
+ 
+
+ <script text="javascript">
+   
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+</script>
+
+      
+   </body>
+</html>
+  
