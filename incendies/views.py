@@ -105,7 +105,7 @@ class IncendieCreate(LoginRequiredMixin,CreateView):
 		form.instance.user = self.request.user
 		# Let the  CreateView do  its job  as usual
 		return super().form_valid(form)
-	 
+@login_required	 
 def index(request):
  	return render(request,'incendies/about.html')
 
@@ -195,7 +195,7 @@ def brigade(request):
 
 def feux(request):
     # feux =  Incendie.objects.filter(intervention__moyensMobilise =4)
-    x=  simplejson.dumps([a.get_json() for a in Incendie.objects.all()]) 
+    x=  simplejson.dumps([a.get_json() for a in Incendie.objects.all()],default=str) 
     return HttpResponse(x,content_type='json')
  
 def synthese(request):
@@ -539,5 +539,31 @@ def load_especes(request):
     typeformation_id = request.GET.get('typeformation')
     especes = Espece.objects.filter(typeformation_id=typeformation_id).order_by('name')
     return render(request, 'incendies/espece_dropdown_list_options.html', {'especes': especes})
+
+def signup(request):
+    error_message =''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # this is how we index 
+            login(request, user)
+            return redirect('/')
+        else:
+            error_message = ' Invalid sign up retry again'
+    # a  bad POST or a GET request so render signup.html  with an empty template
+    form = UserCreationForm()
+    context = {
+    'form': form,
+    'error_message': error_message
+    }
+    return render(request,'registration/signup.html', context)
+
+def limite_commune(request):
+    limite_communes = serialize('geojson', Limite_commune.objects.all())
+    return HttpResponse(limite_communes,content_type='json')
+def localites(request):
+    localites = serialize('geojson', Localites.objects.all())
+    return HttpResponse(localites,content_type='json')
 
  

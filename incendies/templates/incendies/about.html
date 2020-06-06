@@ -1,36 +1,91 @@
 {% extends 'incendies/layout.html' %}
 
 {% block content %}
-        
-  <h1></h1>
+{% load static %}  
+<style>
+ 
+  .carousel{
+    padding-top: 0px;
+    height: 350px;
+    perspective: 100%;
+     background: #000;
+  }
+  .carousel .carousel-item{
+    width: 350px;
+  }
+
+  .carousel .carousel-item img{
+    width: 100%;
+  }
+</style>      
     <div class="row">
-        <div class="col s4">
+ 
+   <div class="carousel ">
+    <a href="#one!" class="carousel-item">
+          <img src="{% static 'incendies/images/Image1.png' %}" alt="">
+    </a>
+    <a href="#one!" class="carousel-item">
+          <img src="{% static 'incendies/images/Image2.jpg' %}" alt="">
+    </a>
+     
+     <a href="#three!" class="carousel-item">
+          <img src="{% static 'incendies/images/Image3.jpg' %}" alt="">
+    </a>
+    <a href="#four!" class="carousel-item">
+          <img src="{% static 'incendies/images/Image4.jpg' %}" alt="">
+    </a>
+    <a href="#five!" class="carousel-item">
+          <img src="{% static 'incendies/images/Image5.jpg' %}" alt="">
+    </a>
+    <a href="#five!" class="carousel-item">
+          <img src="{% static 'incendies/images/Image6.jpg' %}" alt="">
+    </a>
+    <a href="#five!" class="carousel-item">
+          <img src="{% static 'incendies/images/Dispositif_2020.bmp' %}" alt="">
+    </a>
+  </div>
+   </div>
+
+   
+ 
+
+    <div class="row">
+        <div class="col s12 l4">
             <div class="card">
               <div class="card-content">
                 <span class="card-title">Tableau de synthèse</span>
-                  <p>Situation des incendies et canevas...</p>
+                  <div class="card-image">
+                <img src="{% static 'incendies/images/bilan.jpg' %}" alt="">
+              </div>
                   <div class ="card-action"> 
                 <a href="{% url 'synthese' %}" class="btn btn-success">Voir</a>
                   </div>
               </div>
             </div>
         </div>
-        <div class="col s4">
+        <div class="col s12 l4">
             <div class="card">
               <div class="card-content">
+              
                 <span class="card-title">Tableau de Bord</span>
-                  <p>Statistiques et histogrammes</p>
+                <div class="card-image">
+                <img src="{% static 'incendies/images/icon_dashbord.jpg' %}" alt="">
+              </div>
+                  <!-- <p>Statistiques et histogrammes</p> -->
                   <div class ="card-action"> 
-                <a href="{% url 'nombrefoyergraph' %}" class="btn btn-success">Voir</a>
+                <a href="{% url 'nombrefoyergraph' %}" >Voir le détails</a>
                   </div>
               </div>
             </div>
         </div>
-        <div class="col s4">
+        <div class="col s12 l4">
             <div class="card">
               <div class="card-content">
                 <span class="card-title">base de donnée</span>
-                  <p>flash incendies et base de données</p>
+                <div class="card-image">
+                <img src="{% static 'incendies/images/details.png' %}" alt="">
+              </div>
+                  <!-- <p>flash incendies et base de données</p> -->
                   <div class ="card-action"> 
                 <a href="{% url 'incendies_index' %}" class="btn btn-success">Voir</a>
                   </div>
@@ -38,4 +93,6 @@
             </div>
         </div>   
     </div>
+
  {% endblock %}
+ 

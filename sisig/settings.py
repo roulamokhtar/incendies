@@ -31,10 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'projet',
     'incendies',
-    'odd',
-    'reboisement',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -89,7 +86,7 @@ WSGI_APPLICATION = 'sisig.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'sisig',
+        'NAME': 'sisig2',
         'USER':'postgres',
         'HOST':'localhost',
         'PASSWORD':'forets2019',
@@ -135,7 +132,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL='/projet/'
+LOGIN_REDIRECT_URL='/incendies/'
 LOGOUT_REDIRECT_URL='/'
 SERIALIZATION_MODULES = {
      "geojson": "django.contrib.gis.serializers.geojson",

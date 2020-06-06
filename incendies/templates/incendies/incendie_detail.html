@@ -58,7 +58,7 @@
    <form action="{% url 'add_intervention' incendie.id %}" method="post">
       {% csrf_token %}
       {{intervention_form.as_p}}
-      <input type="submit" class="btn" value=" Ajouter">
+      <input type="submit" class="btn" value=" Ajouter" id="toast">
   </form>
  </div>
   <div id="materielmobilise" class="col s12">
@@ -256,6 +256,17 @@ console.log(typeFormationId)
 
     $(document).ready(function(){
 
+const elementsToast = document.querySelector('#toast');
+ const instanceToast = ()=>{
+
+                        M.toast({
+                          html:'Les données ont été rajoutées',
+                          classes:'rounded'
+                        })
+                      }
+elementsToast.addEventListener("click",()=>{
+    instanceToast();
+});
 
            
 
@@ -284,6 +295,7 @@ console.log(typeFormationId)
             M.FormSelect.init(selectMoyenshumain);
             M.FormSelect.init(selectMoyensmateriel);
             M.FormSelect.init(selectTypeDegat);
+
 
 
 

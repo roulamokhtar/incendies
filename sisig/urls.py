@@ -18,16 +18,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.contrib import admin  
 from django.conf.urls import url 
-from projet import views 
+from incendies import views 
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^$', views.index,name='index'),
+    url(r'^$', views.index, name='index'),
     path('admin/', admin.site.urls),
-    url(r'^projet/', include('projet.urls')),
-    url(r'^odd/', include('odd.urls')),
+    # url(r'^projet/', include('projet.urls')),
     url(r'^incendies/', include('incendies.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    
     # url(r'^reboisement/', include('reboisement.urls')),
     # url(r'^odd/', include('odd.urls')),
     # url(r'^gee/', include('gee.urls')),

@@ -11,7 +11,7 @@
 <!--     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
  -->
     <!-- Load   Leaflet css from local file   -->
-     <link rel="stylesheet" href="{% static 'projet/css/leaflet.css' %}">
+     <link rel="stylesheet" href="{% static 'incendies/css/leaflet.css' %}">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
 
@@ -21,23 +21,23 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
  <!-- Bootstrap CSS from local file -->
-<!--  <link rel="stylesheet" href="{% static 'projet/css/bootstrap.min.css' %}">
+<!--  <link rel="stylesheet" href="{% static 'incendies/css/bootstrap.min.css' %}">
  -->
    
 
- <link rel="stylesheet" href="{% static 'projet/css/Leaflet.Coordinates-0.1.5.css' %}">
- <link rel="stylesheet" href="{% static 'projet/js/Leaflet.Coordinates-0.1.5.min.js' %}">
+ <link rel="stylesheet" href="{% static 'incendies/css/Leaflet.Coordinates-0.1.5.css' %}">
+ <link rel="stylesheet" href="{% static 'incendies/js/Leaflet.Coordinates-0.1.5.min.js' %}">
 
- <link rel="stylesheet" href="{% static 'projet/css/leaflet-sidebar.min.css' %}">
-<link rel="stylesheet" href="{% static 'projet/css/leaflet.extra-markers.min.css'%}">
-<link rel="stylesheet" href="{% static 'projet/css/leaflet-search.min.css'%}">
-<link rel="stylesheet" href="{% static 'projet/css/MarkerCluster.css'%}">
-<link rel="stylesheet" href="{% static 'projet/css/MarkerCluster.Default.css'%}">
-<link rel="stylesheet" href="{% static 'projet/css/Leaflet.Coordinates-0.1.5.css'%}">
+ <link rel="stylesheet" href="{% static 'incendies/css/leaflet-sidebar.min.css' %}">
+<link rel="stylesheet" href="{% static 'incendies/css/leaflet.extra-markers.min.css'%}">
+<link rel="stylesheet" href="{% static 'incendies/css/leaflet-search.min.css'%}">
+<link rel="stylesheet" href="{% static 'incendies/css/MarkerCluster.css'%}">
+<link rel="stylesheet" href="{% static 'incendies/css/MarkerCluster.Default.css'%}">
+<link rel="stylesheet" href="{% static 'incendies/css/Leaflet.Coordinates-0.1.5.css'%}">
 
 
 
-   <link rel="stylesheet"  href="{% static 'projet/css/myStyle.css' %}">
+   <link rel="stylesheet"  href="{% static 'incendies/css/myStyle.css' %}">
 
  
     <style>
@@ -57,7 +57,7 @@
     
 <!-- <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script> -->
 
-       <script src="{% static 'projet/js/leaflet.js' %}"></script>
+       <script src="{% static 'incendies/js/leaflet.js' %}"></script>
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 
 <!-- Load Esri Leaflet from CDN.  it has no .css stylesheet of its own, only .js -->
@@ -66,17 +66,17 @@
     crossorigin=""></script>
 
 
-       <script src="{% static 'projet/js/leaflet-providers.js' %}"></script>
+       <script src="{% static 'incendies/js/leaflet-providers.js' %}"></script>
     <!--[if lte IE 8]><link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.ie.css" /><![endif]-->
-<!--     <script type="text/javascript" src="{% static 'projet/js/Bing.js' %}"></script>
- -->    <script src="{% static 'projet/js/leaflet-sidebar.min.js' %}"></script>
-    <script src="{% static 'projet/js/leaflet.extra-markers.min.js' %}"></script>
-    <script src="{% static 'projet/js/leaflet-search.src.js' %}"></script>
-        <script src="{% static 'projet/js/leaflet.markercluster.js' %}"></script>
-<script src="{% static 'projet/js/Leaflet.Coordinates-0.1.5.min.js' %}"></script>
-  <!--     <script src="{% static 'projet/data/c.geojson' %}"></script>
- -->  <script type="text/javascript" src="{% static 'projet/js/leaflet.ajax.min.js' %}"></script>
-<!--       <script type="text/javascript" src="{% static 'projet/js/jquery.js' %}"></script>
+<!--     <script type="text/javascript" src="{% static 'incendies/js/Bing.js' %}"></script>
+ -->    <script src="{% static 'incendies/js/leaflet-sidebar.min.js' %}"></script>
+    <script src="{% static 'incendies/js/leaflet.extra-markers.min.js' %}"></script>
+    <script src="{% static 'incendies/js/leaflet-search.src.js' %}"></script>
+        <script src="{% static 'incendies/js/leaflet.markercluster.js' %}"></script>
+<script src="{% static 'incendies/js/Leaflet.Coordinates-0.1.5.min.js' %}"></script>
+  <!--     <script src="{% static 'incendies/data/c.geojson' %}"></script>
+ -->  <script type="text/javascript" src="{% static 'incendies/js/leaflet.ajax.min.js' %}"></script>
+<!--       <script type="text/javascript" src="{% static 'incendies/js/jquery.js' %}"></script>
  -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 
@@ -149,31 +149,45 @@ $(document).ready(function(){
 }
  async function getData(){
     const  response = await fetch('{% url "feux" %}');
-        
+     if(response != null){
 
-    const   data = await response.json();
+      const   data = await response.json();
 
       for(item of data) {
-             if(item.dateExt == '2020-06-01 00:00:00'){
-                          var colorICON= redIcon;
-                        var etat = "En cours"
-                  }else{
+ 
+if(item.dateExt != null){
+   var etat = item.dateExt ;
 var colorICON= greenIcon;
- var etat = item.dateExt.toString() ;
-            }
-               
-      
-              
 
-            
+ }else{
+  var colorICON= redMarker ;//redIcon
+  var etat = 'En cours'
+ }
+
+ if(item.dateIntervention != null){
+    
+  var dateIntervention= item.dateIntervention.toString();
+    var heureIntervention= item.heureIntervention.toString();
+
+
+ }else{
+  var dateIntervention= 'intervention impossible';
+  }
+
+             
              L.marker([item.Lat, item.Long],{icon: colorICON}).addTo(map)
              .bindPopup(
               '<p><strong> <font size="2" color="blue">Incendie: </font>'+'<font size="2" color="red">'+item.lieudit.toString()+'<p>'+
-              '<p><strong> <font size="2" color="blue">Départ : </font>'+ '<font size="2" color="red">'+item.heureDepart.toString()+'<p>'+
-              '<p><strong> <font size="2" color="blue">Intervention : </font>'+'<font size="2" color="red">'+item.heureIntervention.toString()+'<p>'+
+              '<p><strong> <font size="2" color="blue">Départ : </font>'+ '<font size="2" color="red">'+item.dateDepart.toString()+ ' à '+item.heureDepart.toString()+'<p>'+
+              '<p><strong> <font size="2" color="blue">Intervention : </font>'+'<font size="2" color="red">'+dateIntervention+ '  '+heureIntervention+'<p>'+
 
               '<p><strong> <font size="2" color="blue">Extinction : </font>'+'<font size="2" color="red">'+etat +'<p>')
      }
+     }else{
+      const   data = null
+     }   
+
+    
 
       // L.marker([data.features[0].properties.Lat, data.features[0].properties.Long]).addTo(map);
  }
@@ -277,11 +291,11 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
             });
 
             var icon_eau1= L.icon({
-              iconUrl: '{% static "projet/images/waterdrop.png" %}' ,       
+              iconUrl: '{% static "incendies/images/waterdrop.png" %}' ,       
             });
 
             var icon_house= L.icon({
-             iconUrl: '{% static "projet/images/cottage.png" %}' ,       
+             iconUrl: '{% static "incendies/images/cottage.png" %}' ,       
             });
 
      
@@ -310,6 +324,7 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
               shadowSize: [41, 41]
           });
 
+
           var yellowIcon = new L.Icon({
               iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
               shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/images/marker-shadow.png',
@@ -332,10 +347,13 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
 // fas fa-dove fa-pulse
 
           var redMarker = L.ExtraMarkers.icon({
-              icon: 'fa-spinner',
+               icon: 'fa-spinner',
               markerColor: 'red',
-              shape: 'circle',
-               
+              shape: 'square',
+              prefix: 'fa',
+              iconRotate: 0,
+              extraClasses: 'fa-spin',
+                
           });
   //         var redMarker = L.AwesomeMarkers.icon({
   //   icon: 'fa-coffee',

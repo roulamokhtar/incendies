@@ -86,10 +86,10 @@ class Incendie(models.Model):
             'Long': self.Long,
             'dateDepart': self.dateDepart.strftime("%Y-%m-%d"),
             'heureDepart': self.heureDepart.strftime("%H:%M"),
-            'dateIntervention' : self.dateIntervention.strftime("%Y-%m-%d"),
-            'heureIntervention': self.heureIntervention.strftime("%H:%M"),
-            'dateExt':self.dateExt.strftime("%Y-%m-%d"),
-            'heureExt': self.heureExt.strftime("%H:%M"), 
+            'dateIntervention' : self.dateIntervention,
+            'heureIntervention': self.heureIntervention,
+            'dateExt':self.dateExt,
+            'heureExt': self.heureExt, 
             'lieudit': self.lieudit,
             'interventions': [{'id': b.id,'organisme':b.organisme.name,'nombre':b.nombrehumain,'moyen':b.moyenshumain.name} for b in self.intervention_set.all()] ,
             'moyens': [{'id': c.id,'organisme':c.organisme.name,'nombre materiel':c.nombremateriel,'moyen matérel':c.moyensmateriel.name} for c in self.moyen_set.all()] ,
@@ -97,6 +97,7 @@ class Incendie(models.Model):
 
     def is_encours(self):
     	return self.dateExt == None
+    
 
 class Intervention ( models.Model): 
     incendie = models.ForeignKey(Incendie, on_delete= models.CASCADE)

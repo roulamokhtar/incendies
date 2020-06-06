@@ -14,22 +14,7 @@ class DateInput(forms.DateTimeInput):
 class IncendieForm(forms.ModelForm):
     class Meta:
         model = Incendie
-        fields = ['wilaya','commune','forets','lieudit','Lat','Long','dateDepart','heureDepart','dateIntervention','heureIntervention','dateExt','heureExt','Commentaires']
-        # widgets = {
-        #     'wilaya': forms.Select(attrs={'class': 'myfieldclass'}),
-        #     'commune': forms.Select(attrs={'class': 'myfieldclass'}),
-        #     'forets': forms.TextInput(attrs={'class': 'myfieldclass'}),
-        #     'lieudit': forms.TextInput(attrs={'class': 'myfieldclass'}),
-        #     'Lat': forms.TextInput(attrs={'class': 'myfieldclassLieuDit'}),
-        #     'Long': forms.TextInput(attrs={'class': 'myfieldclassLieuDit'}),
-        #     'Départ de feux': DateInput(),
-        #     'Date d\'Intervention': DateInput(),
-        #     'dateExt':DateInput(),
-        #     'Commentaires': forms.Textarea(attrs={'class': 'myfieldclassArea'}),
-        #  }
-
-
-     
+        fields = ['wilaya','commune','forets','lieudit','Lat','Long','dateDepart','heureDepart','dateIntervention','heureIntervention','dateExt','heureExt','Commentaires']   
 
     def __init__(self, *args, **kwargs):
         # user = kwargs.pop('user')
@@ -37,11 +22,6 @@ class IncendieForm(forms.ModelForm):
  
  
         self.fields['commune'].queryset = Commune.objects.none()
- 
-                
-
-  
-
 
         if 'wilaya' in self.data:
             try:
@@ -50,7 +30,44 @@ class IncendieForm(forms.ModelForm):
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
-            self.fields['commune'].queryset = self.instance.wilaya.commune_set 
+            self.fields['commune'].queryset = self.instance.wilaya.commune_set
+    def clean(self):
+        cleaned_data = super(IncendieForm, self).clean()
+
+        dateDepart = self.cleaned_data['dateDepart']
+        heureDepart = self.cleaned_data['heureDepart']
+
+        dateIntervention = self.cleaned_data['dateIntervention']
+        heureIntervention = self.cleaned_data['heureIntervention']
+
+        dateExt = self.cleaned_data['dateExt']
+        heureExt = self.cleaned_data['heureExt']
+
+        depart_dateTime = ('%s %s' % (dateDepart, heureDepart))
+        intervention_dateTime = ('%s %s' % (dateIntervention, heureIntervention))
+        extinction_dateTime = ('%s %s' % (dateIntervention, heureIntervention))
+
+        # from_time = cleaned_data.get("from_time")
+        # end_time = cleaned_data.get("end_time")
+        if dateIntervention  and  not heureIntervention: 
+            raise forms.ValidationError('renseigner le champ (heureIntervention)')
+        if heureIntervention  and  not dateIntervention: 
+            raise forms.ValidationError("  renseigner le champ (dateIntervention)   ")
+
+        if depart_dateTime and intervention_dateTime:
+            if intervention_dateTime < depart_dateTime:
+                raise forms.ValidationError('<p style ="color:red">  date d\'intervention ne peut pas être avant le départ de feux !!!! </p>')
+
+        if depart_dateTime and extinction_dateTime:       
+            if extinction_dateTime < depart_dateTime:
+                raise forms.ValidationError( '<span style ="color:red">'   "date d'Extinction  ne peut pas être avant le départ de feux !!!!" '</span')
+
+        if intervention_dateTime and extinction_dateTime:       
+            if extinction_dateTime < intervention_dateTime:
+                raise forms.ValidationError("date d'Extinction  ne peut pas être avant la d'intervention de feux !!!!")
+
+
+        return cleaned_data
 
 class InterventionForm(ModelForm):
     class Meta:

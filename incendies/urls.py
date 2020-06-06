@@ -44,6 +44,10 @@ path('ajax/load-especes/', views.load_especes, name='ajax_load_especes'),  # <--
 # path('ajax/load-wilayas/', views.load_wilayas, name='ajax_load_wilayas'),  # <-- this one here
 
 # path('ajax/load-wilaya/', views.load_wilaya, name='ajax_load_wilaya'),  # <-- this one here
+path('accounts/signup', views.signup, name='signup'),
+
+url('limite_commune/', limite_commune , name='limite_commune'),
+url('localites/', localites , name='localites'),
 
 
 ]
