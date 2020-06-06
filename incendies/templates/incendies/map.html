@@ -229,18 +229,7 @@ limite_communes =   L.geoJSON.ajax("{% url 'limite_commune' %}" ,{onEachFeature:
       ///////////////////markerclusterer//////////////////////
  
  
- 
-    function bind (feature,layer){
-    layer.bindPopup('<p><strong> <font size="2" color="blue">'+feature.properties.name.toString()+'<p>'+ '<p><strong> <font size="2" color="blue">Foret domaniale : '+feature.properties.layer.toString()+'<p>' )
-    }
-    function bindFeux (feature,layer){
-    layer.bindPopup('<p><strong> <font size="2" color="blue">'+feature.properties.name.toString()+'<p>' )
-    }
-
-    function bindBrigade (feature,layer){
-            layer.bindPopup("<p><strong><font size='2' color='blue'>Brigade forestière :"+feature.properties.name.toString())+"</strong><p>"  
-    }
-
+   
     function bindLimite_commune (feature,layer){
             layer.bindPopup(feature.properties.name.toString())
     }
@@ -312,9 +301,7 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
 
           // color:'green',dashArray:'5.5',fillOpacity:0.7
  
- function resetFormReboisement() {
-        document. getElementById("foret-reboisement").reset();
-        }
+  
           var redIcon = new L.Icon({
               iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
               shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/images/marker-shadow.png',
@@ -376,10 +363,7 @@ function getLocalite(localites){
      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<!-- 4/sAEUBCTI4Edd5HpcwhVjZyKVasiOmVe6EYdU34JNdRFc0Vd0Ln8yHaU
- -->
- <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb4zkM4A_4LPifJAWMQFEgeGVmgBDwt2U"
-            async defer></script> -->
+ 
 
   </body>
 </html>
