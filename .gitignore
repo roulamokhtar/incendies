@@ -1,0 +1,4 @@
+sisig
+*.pyc
+staticfiles
+.env
