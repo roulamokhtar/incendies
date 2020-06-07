@@ -8,6 +8,7 @@ django-leaflet==0.26.0
 docutils==0.15.2
 entrypoints==0.3
 Fiona==1.8.13
+GDAL==3.0.2
 geojson==2.5.0
 geos==0.2.2
 gunicorn==20.0.4
