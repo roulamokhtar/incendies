@@ -24,13 +24,10 @@ from django.db.models.functions import Coalesce
 from django.db.models import Subquery,OuterRef,Sum,Count,Max,Value as V ,FloatField, F
 from django.db import connection
 from django.db.models import F
-from itertools import chain
 from bokeh.palettes import Category20c,Category20,Dark2,Plasma
 from bokeh.transform import cumsum
 from math import pi
 import decimal
-import itertools
-
 import json
 import time
 import requests
@@ -38,7 +35,6 @@ import csv
 # from projet import integration
 import ee
 import pandas as pd
-import geopandas as gpd
 from bokeh.plotting import ColumnDataSource, figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import Slider, HoverTool, GeoJSONDataSource,ColumnDataSource,LassoSelectTool,WheelZoomTool,Circle,Line,Rect,Text,Plot,LinearColorMapper,ColorBar
