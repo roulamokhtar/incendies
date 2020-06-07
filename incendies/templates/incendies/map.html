@@ -164,17 +164,17 @@ var colorICON= greenIcon;
   var etat = 'En cours'
  }
 
- if(item.dateIntervention != null){
-    
+ if(item.dateIntervention  ){
+   
   var dateIntervention= item.dateIntervention.toString();
     var heureIntervention= item.heureIntervention.toString();
-
+ 
 
  }else{
   var dateIntervention= 'intervention impossible';
+  var heureIntervention= ''
   }
-
-             
+              
              L.marker([item.Lat, item.Long],{icon: colorICON}).addTo(map)
              .bindPopup(
               '<p><strong> <font size="2" color="blue">Incendie: </font>'+'<font size="2" color="red">'+item.lieudit.toString()+'<p>'+

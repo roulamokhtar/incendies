@@ -6,12 +6,12 @@
  
   .carousel{
     padding-top: 0px;
-    height: 350px;
+    height: 200px;
     perspective: 100%;
      background: #000;
   }
   .carousel .carousel-item{
-    width: 350px;
+    width: 250px;
   }
 
   .carousel .carousel-item img{
@@ -55,10 +55,10 @@
               <div class="card-content">
                 <span class="card-title">Tableau de synthèse</span>
                   <div class="card-image">
-                <img src="{% static 'incendies/images/bilan.jpg' %}" alt="">
+               <a href="{% url 'synthese' %}"> <img src="{% static 'incendies/images/bilan.jpg' %}" alt=""></a>
               </div>
                   <div class ="card-action"> 
-                <a href="{% url 'synthese' %}" class="btn btn-success">Voir</a>
+                <a href="{% url 'synthese' %}">Voir les synthèses</a>
                   </div>
               </div>
             </div>
@@ -69,7 +69,7 @@
               
                 <span class="card-title">Tableau de Bord</span>
                 <div class="card-image">
-                <img src="{% static 'incendies/images/icon_dashbord.jpg' %}" alt="">
+                <a href="{% url 'nombrefoyergraph' %}" ><img src="{% static 'incendies/images/icon_dashbord.jpg' %}" alt=""></a>
               </div>
                   <!-- <p>Statistiques et histogrammes</p> -->
                   <div class ="card-action"> 
@@ -83,11 +83,11 @@
               <div class="card-content">
                 <span class="card-title">base de donnée</span>
                 <div class="card-image">
-                <img src="{% static 'incendies/images/details.png' %}" alt="">
+                 <a href="{% url 'incendies_index' %}"> <img src="{% static 'incendies/images/details.png' %}" alt=""></a>
               </div>
                   <!-- <p>flash incendies et base de données</p> -->
                   <div class ="card-action"> 
-                <a href="{% url 'incendies_index' %}" class="btn btn-success">Voir</a>
+                <a href="{% url 'incendies_index' %}" >Voir listes des incendies</a>
                   </div>
               </div>
             </div>
