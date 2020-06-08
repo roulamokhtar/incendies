@@ -3,8 +3,7 @@
 {% load static %} 
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 
-   <script src = "{% static 'projet/js/Chart.min.js' %}"></script>
-
+ 
 	<title>Histogramme</title>
 
 	<canvas id ="nbrFoyer" style = "max-height:400px;max-width:50%"  ></canvas>
@@ -12,9 +11,7 @@
 
  
 	<script>
-	// {% for projet in queryset %}
- // 		console.log("{{ projet.name }}", "{{ projet.nombre_objectifglobal }}"   );
- //  	{% endfor %}
+ 
   	
 
 	var endpoint = '{% url "incendies_histogramme" %}'

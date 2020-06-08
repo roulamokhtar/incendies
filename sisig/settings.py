@@ -25,7 +25,7 @@ SECRET_KEY = 'ox-5!jmktn=n@^#dhckk9$^pvxic#q*gk-z#h=ygh5k@vwz=dc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['incendies.herokuapp.com']
+ALLOWED_HOSTS = ['localhost','incendies.herokuapp.com']
 
 
 # Application definition
