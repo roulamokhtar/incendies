@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.templatetags.static',
     'django.contrib.gis',
     'leaflet',
     'import_export',
