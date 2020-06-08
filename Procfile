@@ -1,1 +1,1 @@
-web: gunicorn sisig.wsgi --log-file-
+web: gunicorn sisig.wsgi --log-file=-
