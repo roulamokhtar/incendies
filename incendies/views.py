@@ -30,7 +30,6 @@ from math import pi
 import decimal
 import json
 import time
-import requests
 import csv
 # from projet import integration
 import ee
