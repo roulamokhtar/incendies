@@ -41,7 +41,7 @@ from bokeh.models import Slider, HoverTool, GeoJSONDataSource,ColumnDataSource,L
 from bokeh.models.tools import HoverTool
 from bokeh.palettes import Spectral6,Spectral10
 from bokeh.tile_providers import CARTODBPOSITRON, get_provider,Vendors
-from bokeh.io import output_notebook, show, output_file,curdoc
+ 
 from bokeh.palettes import brewer
 from bokeh.layouts import widgetbox, row, column
 import os
@@ -50,8 +50,7 @@ import simplejson
 import math
 import datetime
 
-from folium.folium import Map
-# Create your views here.
+ # Create your views here.
 # class InterventionDeleteView(DeleteView):
 # 	model = Intervention
 	# success_url = reverse_lazy('detail ')
