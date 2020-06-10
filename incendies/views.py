@@ -31,8 +31,6 @@ import decimal
 import json
 import time
 import csv
-# from projet import integration
-import ee
 import pandas as pd
 from bokeh.plotting import ColumnDataSource, figure, output_file, show
 from bokeh.embed import components
