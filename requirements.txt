@@ -17,3 +17,4 @@ django-import-export==2.0.2
 pandas==1.0.3
 Jinja2==2.11.1
 whitenoise==5.1.0 
+geos==0.2.2
