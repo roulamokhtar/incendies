@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -153,3 +154,4 @@ SERIALIZATION_MODULES = {
 # DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 import django_heroku
 django_heroku.settings(locals())
+DATABASES['default'] = dj_database_url.config()
