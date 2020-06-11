@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'sisig.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'sisig',
+        'NAME': 'sisig2',
         'USER':'postgres',
         'HOST':'localhost',
         'PASSWORD':'forets2019',
@@ -148,10 +148,8 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGIN_REDIRECT_URL='/incendies/'
 LOGOUT_REDIRECT_URL='/'
-SERIALIZATION_MODULES = {
-     "geojson": "django.contrib.gis.serializers.geojson",
-  }
+ 
 # DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 import django_heroku
 django_heroku.settings(locals())
-DATABASES['default'] = dj_database_url.config()
+ 
