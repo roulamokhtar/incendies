@@ -18,3 +18,4 @@ Jinja2==2.11.1
 whitenoise==5.1.0 
 geos==0.2.2
 bokeh==2.0.1
+django-heroku==0.3.1
