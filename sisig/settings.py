@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'sisig.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'sisig2',
+        'NAME': 'sisig',
         'USER':'postgres',
         'HOST':'localhost',
         'PASSWORD':'forets2019',
