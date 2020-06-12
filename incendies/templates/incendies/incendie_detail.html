@@ -14,7 +14,14 @@
             <h6 class="card-text"> Latitude :<span style="color:green"> {{ incendie.Lat }}</span></h6>
             <h6 class="card-text"> Longitude :<span style="color:green"> {{ incendie.Long }}</span></h6>
             <h6 class="card-text"> Date de départ :<span style="color:green"> {{ incendie.heureDepart }}</span></h6>
-            <h6 class="card-text"> Date d'intervention:<span style="color:green"> {{ incendie.heureIntervention }}</span></h6>
+            <h6 class="card-text"> Date d'intervention: 
+            {% if incendie.is_encours %}
+              <span style="color:red"> /</span> 
+             {% else %} 
+             <span color ='green'>
+               incendie.dateIntervention
+             </span></h6>
+              {% endif %}
             <h6 class="card-text"> Date d'extinction :
             {% if incendie.is_encours %}
             <!-- <a href="" class="btn-floating btn-Tiny red "><i class=" material-icons">cancel</i></a> -->
