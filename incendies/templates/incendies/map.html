@@ -8,9 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-  -->
-    <!-- Load   Leaflet css from local file   -->
-  -->
+   
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
 
 
@@ -207,20 +205,9 @@ var colorICON= greenIcon;
     // construction des chesouc geojson cantons et filtrage
 
  
-limite_communes =   L.geoJSON.ajax("{% url 'limite_commune' %}" ,{onEachFeature: bindLimite_commune ,  style:StyleLimite_commune});
-
-
-
-
-    localites =   L.geoJSON.ajax("{% url 'localites' %}",{
-                    pointToLayer: function(feature,latlng){
-                                    var marker = L.marker(latlng,{icon: icon_house});
-                                    marker.bindPopup(feature.properties.name );
-                                    return marker;
-                                  },
-                                   });
-      ///////////////////markerclusterer//////////////////////
  
+
+
  
    
     function bindLimite_commune (feature,layer){
@@ -234,13 +221,13 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
       var openstreetmap =   L.layerGroup([openstreetmap]);
       var esri =   L.layerGroup([esri]);
       // var tpf =   L.layerGroup([tpf ]);
-      var limite_communes = L.layerGroup([limite_communes]);
-      var localites = L.layerGroup([localites]);
+      // var limite_communes = L.layerGroup([limite_communes]);
+      // var localites = L.layerGroup([localites]);
       var feux = L.layerGroup([feux]);
       // var forest = L.layerGroup([forest]);//forest variable gee
       var searchLayer = L.layerGroup().addTo(map);
       //... adding data in searchLayer ...    searchLayer is a L.LayerGroup contains searched markers
-      map.addControl( new L.Control.Search({layer:limite_communes}));
+      map.addControl( new L.Control.Search({layer:feux}));
       ////////////////////////// FIN layerGroup VARIABLES////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -252,14 +239,17 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
         // "Topographic":Topographic,
           "OpenTopoMap":OpenTopoMap
     }; 
-
     var overlayMaps3 = {
+        "Incendies":  feux
+     }; 
+
+    // var overlayMaps3 = {
          
-         "communes":  limite_communes,
-          "Localités" : localites,
-             };
+    //      "communes":  limite_communes,
+    //       "Localités" : localites,
+    //          };
              
- var controle_layer = L.control.layers(  overlayMaps2,overlayMaps3).addTo(map);
+ var controle_layer = L.control.layers(  overlayMaps2,overlayMaps3 ).addTo(map);
 
 
 

@@ -161,29 +161,30 @@ def add_Degat(request, incendie_id):
 	return redirect('detail', incendie_id=incendie_id)
 
 def cartofeux(request):
-    canton =  Canton.objects.filter(layer__contains='FD')
-    communes =  Limite_commune.objects.all()
-    perimetres =  Perimetre.objects.all()
-    beneficiares = Parcellaire_perimetre.objects.all()
-    foret_recreatives = Foret_recreative.objects.all()
-    reboisements = Reboisement.objects.filter(kml_folder__contains='Programme 2017')
+    # canton =  Canton.objects.filter(layer__contains='FD')
+    # communes =  Limite_commune.objects.all()
+    # perimetres =  Perimetre.objects.all()
+    # beneficiares = Parcellaire_perimetre.objects.all()
+    # foret_recreatives = Foret_recreative.objects.all()
+    # reboisements = Reboisement.objects.filter(kml_folder__contains='Programme 2017')
  
-    return render(request,'incendies/layoutmap.html',
-    {
-    'Canton':canton,
-    'communes':communes,
-    'perimetres':perimetres,
-    'beneficiares':beneficiares,
-    'foret_recreatives':foret_recreatives,
-    'reboisements':reboisements,
+    return render(request,'incendies/layoutmap.html')
+    # ,{
+    # 'Canton':canton,
+    # 'communes':communes,
+    # 'perimetres':perimetres,
+    # 'beneficiares':beneficiares,
+    # 'foret_recreatives':foret_recreatives,
+    # 'reboisements':reboisements,
    
-    } )
-def localites(request):
-    localites = serialize('geojson', Localites.objects.all())
-    return HttpResponse(localites,content_type='json')
-def brigade(request):
-    brigade = serialize('geojson', Brigade.objects.all())
-    return HttpResponse(brigade,content_type='json')
+    # } 
+    
+# def localites(request):
+#     localites = serialize('geojson', Localites.objects.all())
+#     return HttpResponse(localites,content_type='json')
+# def brigade(request):
+#     brigade = serialize('geojson', Brigade.objects.all())
+#     return HttpResponse(brigade,content_type='json')
 
 def feux(request):
     # feux =  Incendie.objects.filter(intervention__moyensMobilise =4)
@@ -364,7 +365,8 @@ def nombrefoyergraph(request):
 		superficiecommune = Commune.objects.filter(wilaya__name= request.user.username).annotate(superficie=Sum('incendie__typeformationincendie__sup')).order_by('superficie')
 		superficiecommune= superficiecommune.values('name','superficie')
 
- 
+		nombreFoyerTotal = Incendie.objects.filter(wilaya__name= request.user.username).aggregate(nombre_total=Coalesce(Count('id'),0))
+		superficieTotal = Incendie.objects.filter(wilaya__name= request.user.username).aggregate(superficie_total=Coalesce(Sum('typeformationincendie__sup'),0))
 
 		all_incendie_typesespece = Incendie.objects.filter(wilaya__name= request.user.username).exclude(typeformationincendie__sup=None).values('typeformationincendie__espece__name').annotate(superficie_formation=Sum('typeformationincendie__sup'))
 		sum_incendie_types = Incendie.objects.filter(wilaya__name= request.user.username).aggregate(sum_superficie = Sum('typeformationincendie__sup'))
@@ -376,45 +378,88 @@ def nombrefoyergraph(request):
 		dict_of_percentages_type_formation = { superficie['typeformationincendie__typeformation__name']:superficie['superficie_formation'] * 100/ sum_incendie_types_formation['sum_superficie']
 		for superficie in all_incendie_type_formation }
 #################################################################################################################################
-	for sd in nombreFoyer:
-		counts.append(sd['dcount'])
-		print(counts)
-		items.append(sd["name"])
-		items = list(map(str, items))
-		plot = figure(x_range= items,plot_height= 400,plot_width= 1000, title="Nombre de Foyer",toolbar_location = "right", tools = "pan,wheel_zoom,box_zoom,reset,tap,crosshair",y_range=(0, max(counts)))
-		source = ColumnDataSource(data = dict(xx=items, zz=counts, color=Spectral6))
-		plot.vbar(x='xx',top='zz', width=.5, color ='color',source = source)
-		plot.xaxis.major_label_orientation = math.pi/2
-###################################################################################################################################
-	for i in superficiecommune:
-		sup.append(i['superficie'])
-		itemsuperficie.append(i["name"])
-		itemsuperficie = list(map(str, itemsuperficie))
-		plotsuperficie = figure(x_range= itemsuperficie,plot_height= 400,plot_width= 1000, title="Superficie de feux ",toolbar_location = "right", tools = "pan,wheel_zoom,box_zoom,reset,tap,crosshair")
-		source1 = ColumnDataSource(data = dict(aa=itemsuperficie, bb=sup, color=Spectral6))
-		plotsuperficie.vbar(x='aa',top='bb', width=.5, color ='color',source = source1)
-		plotsuperficie.xaxis.major_label_orientation = math.pi/2
-	
-###################################################################################################################################
-	if(len(dict_of_percentages_espece) !=0):
-		data = pd.DataFrame.from_dict(dict(dict_of_percentages_espece), orient='index').reset_index()
-		data = data.rename(index=str, columns={0:'value', 'index':'country'})
-	 
-		data['angle'] = data['value']/sum(dict_of_percentages_espece.values()) * 2* decimal.Decimal(pi)
+		# cas ou il ya au minimum un feux ett une superficie renseigné
 
-		 
+	if(nombreFoyerTotal['nombre_total'] !=0 and superficieTotal['superficie_total'] !=0):
+		print(' nombreFoyer' ,nombreFoyerTotal)
+
+		print(' superficieTotal',superficieTotal)
+
+		print(' nombreFoyer et superficieTotal >0')
+		for sd in nombreFoyer:
+			counts.append(sd['dcount'])
+			print(counts)
+			items.append(sd["name"])
+			items = list(map(str, items))
+			plotNombre = figure(x_range= items,plot_height= 400,plot_width= 1000, title="Nombre de Foyer",toolbar_location = "right", tools = "pan,wheel_zoom,box_zoom,reset,tap,crosshair",y_range=(0, max(counts)))
+			source = ColumnDataSource(data = dict(xx=items, zz=counts, color=Spectral6))
+			plotNombre.vbar(x='xx',top='zz', width=.5, color ='color',source = source)
+			plotNombre.xaxis.major_label_orientation = math.pi/2
+
+		hover = HoverTool()
+		hover.tooltips="""
+		<div>
+		<h5>@xx</h3>
+		<div><strong>Nombre de foyer:</strong>@zz</div>
+		</div>
+		"""
+
+		plotNombre.add_tools(hover)
+
+
+ 
+		###################################################################################################################################
+		for i in superficiecommune:
+			sup.append(i['superficie'])
+			itemsuperficie.append(i["name"])
+			itemsuperficie = list(map(str, itemsuperficie))
+			plotsuperficie = figure(x_range= itemsuperficie,plot_height= 400,plot_width= 1000, title="Superficie de feux ",toolbar_location = "right", tools = "pan,wheel_zoom,box_zoom,reset,tap,crosshair")
+			source1 = ColumnDataSource(data = dict(aa=itemsuperficie, bb=sup, color=Spectral6))
+			plotsuperficie.vbar(x='aa',top='bb', width=.5, color ='color',source = source1)
+			plotsuperficie.xaxis.major_label_orientation = math.pi/2
+
+			# gestion du hover
+		hover2 = HoverTool()
+		hover2.tooltips="""
+		<div>
+		<h5>@aa</h5>
+		<div><strong>Superficie des incendies:</strong>@bb Ha</div>
+		</div>
+		"""
+
+
+		plotsuperficie.add_tools(hover2)
+
+		hover3 = HoverTool()
+		hover3.tooltips="""
+		<div>
+		<h5>@ff</h5>
+		<div><strong>Superficie des incendies:</strong>@gg </div>
+		</div>
+		"""
+
+
+
+	
+
+###################################################################################################################################
+		dataPercentages_espece = pd.DataFrame.from_dict(dict(dict_of_percentages_espece), orient='index').reset_index()
+		dataPercentages_espece = dataPercentages_espece.rename(index=str, columns={0:'value', 'index':'country'})
+
+		dataPercentages_espece['angle'] = dataPercentages_espece['value']/sum(dict_of_percentages_espece.values()) * 2* decimal.Decimal(pi)
+
+			  # partie de gestion des couleurs dans l'histogramme par  especes
+
 		if (len(dict_of_percentages_espece) == 2):
 			print('salut 2')
-			data['color'] =('#440154', '#30678D')
+			dataPercentages_espece['color'] =('#440154', '#30678D')
 		elif(len(dict_of_percentages_espece) == 1):
 			print('salut 1')
-			data['color'] =('#440154')
+			dataPercentages_espece['color'] =('#440154')
 		else:
 			print('salut plus que 2')
-			data['color'] = Category20[len(dict_of_percentages_espece )]
+			dataPercentages_espece['color'] = Category20[len(dict_of_percentages_espece )]
 
-
-	 
 		p_incendie_espece = figure(plot_height=350,plot_width=450, title="Taux d'incendie par espèce", toolbar_location=None,
 			tools="hover", tooltips=[("Espèce", "@country"),("Pourcentage", "@value %")])
 
@@ -425,12 +470,15 @@ def nombrefoyergraph(request):
 		p_incendie_espece.axis.axis_label=None
 		p_incendie_espece.axis.visible=False
 		p_incendie_espece.grid.grid_line_color = None
-		################################################################
+	################################################################
+	 			# partie de gestion des pourcentage % par  type de formation
+
 		data = pd.DataFrame.from_dict(dict(dict_of_percentages_type_formation), orient='index').reset_index()
 		data = data.rename(index=str, columns={0:'value', 'index':'country'})
 	 
 		data['angle'] = data['value']/sum(dict_of_percentages_type_formation.values()) * 2* decimal.Decimal(pi)
 
+			# gestion des couleurs selon le cas
 		if (len(dict_of_percentages_type_formation) == 2):
 			print('salut 2')
 			data['color'] =('#440154', '#30678D')
@@ -454,53 +502,48 @@ def nombrefoyergraph(request):
 	
 
 
-	################################################################""
+################################################################""
+
+		layout = column(plotNombre,column(plotsuperficie),row(children=[p_incendie_espece, p_incendie_type_formation], sizing_mode='stretch_both'),divRemarque) 
+		# p = vplot(s1, s2, s3)
+
+		script, div = components(layout)	 
+	elif(nombreFoyerTotal['nombre_total'] !=0 and superficieTotal['superficie_total'] ==0):
+		print('nombreFoyer>0 et superficieTotal ==0 ')
+
+		for sd in nombreFoyer:
+			counts.append(sd['dcount'])
+			print(counts)
+			items.append(sd["name"])
+			items = list(map(str, items))
+			plotNombre = figure(x_range= items,plot_height= 400,plot_width= 1000, title="Nombre de Foyer",toolbar_location = "right", tools = "pan,wheel_zoom,box_zoom,reset,tap,crosshair",y_range=(0, max(counts)))
+			source = ColumnDataSource(data = dict(xx=items, zz=counts, color=Spectral6))
+			plotNombre.vbar(x='xx',top='zz', width=.5, color ='color',source = source)
+			plotNombre.xaxis.major_label_orientation = math.pi/2
 
 		hover = HoverTool()
 		hover.tooltips="""
-			<div>
-				<h5>@xx</h3>
-				<div><strong>Nombre de foyer:</strong>@zz</div>
-			</div>
-		"""
-		
-		plot.add_tools(hover)
-
-		hover2 = HoverTool()
-		hover2.tooltips="""
-			<div>
-				<h5>@aa</h5>
-				<div><strong>Superficie des incendies:</strong>@bb Ha</div>
-			</div>
-		"""
-
-		
-		plotsuperficie.add_tools(hover2)
-
-		hover3 = HoverTool()
-		hover3.tooltips="""
 		<div>
-			<h5>@ff</h5>
-			<div><strong>Superficie des incendies:</strong>@gg </div>
+		<h5>@xx</h3>
+		<div><strong>Nombre de foyer:</strong>@zz</div>
 		</div>
 		"""
 
+		plotNombre.add_tools(hover)
 
-		# plotsuperficieencoursmaitrise.add_tools(hover3)
+		div2 =     '<div class="center-align">' "<span style = 'color:red'  >" 'Pas de superficie renseigné dans votre wilaya' "</span>" '</div>'
 
-
-		layout = column(plot,column(plotsuperficie),row(children=[p_incendie_espece, p_incendie_type_formation], sizing_mode='stretch_both')
-		) 
-		# p = vplot(s1, s2, s3)
-
-		script, div = components(layout)
+		layout = column(plotNombre) 
+	 
+		script, div = components(layout)	 
 	else:
+		print('nombreFoyer==0 et superficieTotal ==0 ')
+ 
+
 		div =     '<div class="center-align">' "<span style = 'color:red'  >" 'Pas dincendies dans votre wilaya' "</span>" '</div>'
 		script = ''
-		# script, div = components(div)
-
-
-	return render (request, 'incendies/graphBokeh.html', {'script':script, 'div':div})
+ 
+	return render (request, 'incendies/graphBokeh.html', {'script':script, 'div':div,'div2':div2})
 
 def algerie(request):
 	wilaya = serialize('geojson', Wilaya.objects.filter(user= request.user))

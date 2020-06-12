@@ -3,6 +3,9 @@ from .models import *
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
+class ViewAdminWilaya(ImportExportModelAdmin):
+	model = User
+
 @admin.register(Wilaya)
 class ViewAdminWilaya(ImportExportModelAdmin):
 	model = Wilaya
