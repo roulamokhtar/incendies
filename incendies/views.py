@@ -346,6 +346,9 @@ def nombrefoyergraph(request):
 		superficiecommune = Wilaya.objects.exclude(name = 'DGF').annotate(superficie=Coalesce(Sum('incendie__typeformationincendie__sup'),0)).order_by('-superficie')
 		superficiecommune= superficiecommune.values('name','superficie')
 
+		superficieTotal = Incendie.objects.aggregate(superficie_total=Coalesce(Sum('typeformationincendie__sup'),0))
+		nombreFoyerTotal = Incendie.objects.aggregate(nombre_total=Coalesce(Count('id'),0))
+
 
 		all_incendie_typesespece = Incendie.objects.values('typeformationincendie__espece__name').exclude(typeformationincendie__sup=None).annotate(superficie_formation=Sum('typeformationincendie__sup'))
 		sum_incendie_types = Incendie.objects.aggregate(sum_superficie = Sum('typeformationincendie__sup'))

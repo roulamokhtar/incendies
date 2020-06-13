@@ -2,65 +2,66 @@
 {% block content %} 
 {% load static %}
 
- <div class="row">
-  <div class="col s4">
-      <div class="card" >
-          <div class="card-body">
-            <h4 class="card-title center-align">Fiche d'incendie</h4>
-            <h6 class="card-text">Lieu de l'incendie:<span style="color:green"> {{incendie.lieudit}}</span></h6>
-            <h6 class="card-text"> Commune:  <span style="color:green"> {{ incendie.commune }} </span></h6>
-            <h6 class="card-text"> Forêts : <span style="color:green"> {{ incendie.forets }} </span></h6>
-            <h6 class="card-text"> Lieu dit:<span style="color:green"> {{ incendie.lieudit }}</span> </h6>
-            <h6 class="card-text"> Latitude :<span style="color:green"> {{ incendie.Lat }}</span></h6>
-            <h6 class="card-text"> Longitude :<span style="color:green"> {{ incendie.Long }}</span></h6>
-            <h6 class="card-text"> Date de départ :<span style="color:green"> {{ incendie.heureDepart }}</span></h6>
-            <h6 class="card-text"> Date d'intervention: 
+ <div class="row ">
+  <div class="col s12 m6 offset-m3">
+      <div class="card card blue-grey darken-2 " >
+
+            <div class="card-content card-content white-text">
+             <span class="card-title center ">Fiche d'incendie</span>
+              <p class="card-title  " >Lieu de l'incendie: <span style = "color: yellow">{{incendie.lieudit}}</span></p>
+            <p class="card-title  "> Commune:<span style = "color: yellow">   {{ incendie.commune }} </span></p>
+            <p class="card-title  "> Forêts : <span style = "color: yellow"> {{ incendie.forets }} </span></p>
+            <p class="card-title  "> Lieu dit:<span style = "color: yellow"> {{ incendie.lieudit }} </span></p>
+            <p class="card-title  "> Latitude :<span style = "color: yellow"> {{ incendie.Lat }}</span></p>
+            <p class="card-title  "> Longitude :<span style = "color: yellow"> {{ incendie.Long }}</span></p>
+            <p class="card-title  "> Date de départ :<span style = "color: yellow"> {{ incendie.heureDepart }}</span></p>
+            <p class="card-title  "> Date d'intervention: 
             {% if incendie.is_encours %}
-              <span style="color:red"> /</span> 
+              <span style="color:red"> / 
              {% else %} 
              <span color ='green'>
                incendie.dateIntervention
-             </span></h6>
+             </p>
               {% endif %}
-            <h6 class="card-text"> Date d'extinction :
+            <p class="card-title"> Date d'extinction :
             {% if incendie.is_encours %}
             <!-- <a href="" class="btn-floating btn-Tiny red "><i class=" material-icons">cancel</i></a> -->
-            <span style="color:red"> en cours</span>  
+            <span style="color:yellow"> en cours  
             {% else %}
-            <span style="color:green">
-            {{ incendie.dateExt }}</span>          
+            
+            {{ incendie.dateExt }}          
             {% endif %}
-            </h6>
-            <div class="center-align">
+            </p>
+            </div>
+            
+            <div class=" card-action center-align">
               <!-- <a href="{% url 'incendies_index' %}" class ="btn-large btn-floating green darken-3"><i class="material-icons">home</i></a> -->
               <a href="{% url 'incendie_delete' incendie.pk %}" class="btn-floating red "><i class=" material-icons">delete</i></a> 
               <a href="{% url 'incendie_change' incendie.pk %}" class="btn-floating orange "><i class=" material-icons">mode_edit</i></a>
               <!-- <a href="{% url 'cartofeux' %}" class ="btn-large btn-floating red darken-3"><i class="material-icons">add_location</i></a> -->
             </div>
-          </div>
-      </div>
+       </div>
+  </div>
   </div>
    <!-- Partie des formulaires  -->
-
-      
- <div class="col s8">
- <div class="card">
- <div class="card-body">
-             <h4 class="card-title center-align">Formulaire détails de l'incendie</h4>
+                  {% if request.user.username != 'DGF'  %}
+<div class="row">
+  <div class="col s12 ">
+  <div class="card-body">
+             <h4 class="card-title center-align">Formulaire d'ajout des détails de l'incendie</h4>
 
   <div class="row">
    <div class="col s12">
        <ul class="tabs">
-        <li class="tab col s3"><a class="active" href="#intervention">intervention</a></li>
+        <li class="tab col s3"><a  href="#intervention">intervention</a></li>
         <li class="tab col s3"><a href="#materielmobilise">Matériel mobilisé </a></li>
-        <li class="tab col s3"><a class="active" href="#formationincendie">Formation</a></li>
+        <li class="tab col s3"><a   href="#formationincendie">Formation</a></li>
         <li class="tab col s3"><a href="#degat">Dégats</a></li>
       </ul>
     </div>
  </div>
  </div>
- </div>
-    <div class="row">
+     <div class="row">
   <div id="intervention" class="col s12" novalidat>
    <form action="{% url 'add_intervention' incendie.id %}" method="post">
       {% csrf_token %}
@@ -93,14 +94,16 @@
     </div>
 
     </div>
-        </div>
+                        
 
+        </div>
+ {% endif  %}
    
 <hr>
 
 <div class="row">
 
-      <div class="col s6">
+      <div class="col s12 l6">
         <div class ="card">
           <div class="card-body">
             <table class=" table table-striped">
@@ -136,7 +139,7 @@
     </div>
     <!-- fin de la premier -->
 
-  <div class="col s6">
+  <div class="col s12 l6">
     <div class ="card">
       <div class="card-body">        
         <table class=" table table-striped">
@@ -168,9 +171,9 @@
 </div>
  
  
-    <!--  formulaire  pour  les type de Formation incendiés-->
+    <!--  partie affichage des résultats  les type de Formation incendiés-->
 <div class="row">
-  <div class="col s6" >
+  <div class="col s12 l6" >
     <div class ="card">
       <div class="card-body"> 
         <table class=" table table-striped">
@@ -201,7 +204,7 @@
     </div>
   </div> <!-- fin col s6 -->
 
-    <div class="col s6" >
+    <div class="col s12 l6" >
       <div class="card"> 
         <div class="card-body"> 
           <table class=" table table-striped">
@@ -231,6 +234,7 @@
       </div>
     </div> <!-- fin col s6 -->
    </div> <!-- fin row -->
+
 </div><!-- fin  -->
   <!--  fin partie des objectifs spécifique disponible -->
   <!-- Compiled and minified CSS -->
