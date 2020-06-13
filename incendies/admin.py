@@ -1,5 +1,7 @@
 from django.contrib.gis import admin
 from .models import *
+from leaflet.admin import LeafletGeoAdmin
+
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
