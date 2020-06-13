@@ -87,6 +87,8 @@ WSGI_APPLICATION = 'sisig.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+import django_heroku
+django_heroku.settings(locals())
 
 DATABASES = {
     'default': {
@@ -150,6 +152,5 @@ LOGIN_REDIRECT_URL='/incendies/'
 LOGOUT_REDIRECT_URL='/'
  
 # DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
-import django_heroku
-django_heroku.settings(locals())
+
  
