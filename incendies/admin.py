@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 from .models import *
-from leaflet.admin import LeafletGeoAdmin
+# from leaflet.admin import LeafletGeoAdmin
 
 from import_export.admin import ImportExportModelAdmin
 
@@ -17,8 +17,7 @@ class ViewAdminCommune(ImportExportModelAdmin):
 	model = Commune
 
 admin.site.register(Moyenshumain)
-admin.site.register(Limite_commune)
-
+ 
 admin.site.register(Moyensmateriel)
 admin.site.register(Degat)
 admin.site.register(Typedegat)      
