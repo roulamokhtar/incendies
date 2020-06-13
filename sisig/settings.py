@@ -90,17 +90,17 @@ WSGI_APPLICATION = 'sisig.wsgi.application'
 import django_heroku
 django_heroku.settings(locals())
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'sisig2',
-        'USER':'postgres',
-        'HOST':'localhost',
-        'PASSWORD':'forets2019',
-        'PORT':'5432',
-    }
-}
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': 'sisig2',
+#         'USER':'postgres',
+#         'HOST':'localhost',
+#         'PASSWORD':'forets2019',
+#         'PORT':'5432',
+#     }
+# }
+DATABASES = {'default': dj_database_url.config()}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
