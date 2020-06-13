@@ -15,6 +15,8 @@ class ViewAdminCommune(ImportExportModelAdmin):
 	model = Commune
 
 admin.site.register(Moyenshumain)
+admin.site.register(Limite_commune)
+
 admin.site.register(Moyensmateriel)
 admin.site.register(Degat)
 admin.site.register(Typedegat)      
