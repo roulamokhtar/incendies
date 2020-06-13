@@ -12,8 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        CreateExtension('postgis'),
-
          
         migrations.CreateModel(
             name='Canton',
