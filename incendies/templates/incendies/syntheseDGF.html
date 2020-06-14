@@ -105,7 +105,7 @@
       </tr>
       {% empty %}
         <tr>
-          <td colspan="4">Pas d'incendie dans la base de données.  
+          <td colspan="4">Pas de superficie incendiée par formation forestère </td>  
         </tr>
       {% endfor %}
     </tbody>
@@ -122,15 +122,21 @@
       </tr>
     </thead>
     <tbody class="content">
+    {% if dict_of_percentages %}
     {%  for key, values  in dict_of_percentages.items %}
 
       <tr>
          <td class=" center-align">{{key}}</td> <td class=" center-align" style="color:red">{{values|floatformat:2 }} %</td>
       
  </tr>
- 
-</tbody>
  {% endfor %}
+ {% else %}
+         <tr>
+          <td colspan="4">Pas de superficie incendiée </td>  
+        </tr>
+      {% endif %}
+</tbody>
+ 
   </table>
   </div>
   </div>

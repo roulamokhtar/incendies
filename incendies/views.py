@@ -34,13 +34,14 @@ import csv
 import pandas as pd
 from bokeh.plotting import ColumnDataSource, figure, output_file, show
 from bokeh.embed import components
-from bokeh.models import Slider, HoverTool, GeoJSONDataSource,ColumnDataSource,LassoSelectTool,WheelZoomTool,Circle,Line,Rect,Text,Plot,LinearColorMapper,ColorBar
+from bokeh.models import Slider, HoverTool, GeoJSONDataSource,ColumnDataSource,LassoSelectTool,WheelZoomTool,Circle,Line,Rect,Text,Plot,LinearColorMapper,ColorBar,NumeralTickFormatter,PrintfTickFormatter
 from bokeh.models.tools import HoverTool
 from bokeh.palettes import Spectral6,Spectral10
 from bokeh.tile_providers import CARTODBPOSITRON, get_provider,Vendors
- 
+from bokeh.models.ranges import DataRange1d
 from bokeh.palettes import brewer
 from bokeh.layouts import widgetbox, row, column
+from bokeh.models import SingleIntervalTicker
 import os
 import json
 import simplejson
@@ -336,7 +337,9 @@ def nombrefoyergraph(request):
 	supetatfeux =[]
 	itemsuperficie =[]
 	itemsuperficieencoursmaitrise =[]
-	start_date = datetime.datetime(2020, 6, 1 , 00 , 00, 00)  
+	start_date = datetime.datetime(2020, 6, 1 , 00 , 00, 00)
+	divRemarque =''
+
 
 
 	if request.user.username == 'DGF':
@@ -398,6 +401,8 @@ def nombrefoyergraph(request):
 			source = ColumnDataSource(data = dict(xx=items, zz=counts, color=Spectral6))
 			plotNombre.vbar(x='xx',top='zz', width=.5, color ='color',source = source)
 			plotNombre.xaxis.major_label_orientation = math.pi/2
+			y_range = DataRange1d(range_padding=1)
+
 
 		hover = HoverTool()
 		hover.tooltips="""
@@ -468,7 +473,7 @@ def nombrefoyergraph(request):
 
 		p_incendie_espece.wedge(x=0, y=1, radius=0.4, 
 			start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
-			line_color="white", fill_color='color', legend='country', source=data)
+			line_color="white", fill_color='color', legend='country', source=dataPercentages_espece)
 
 		p_incendie_espece.axis.axis_label=None
 		p_incendie_espece.axis.visible=False
@@ -507,7 +512,7 @@ def nombrefoyergraph(request):
 
 ################################################################""
 
-		layout = column(plotNombre,column(plotsuperficie),row(children=[p_incendie_espece, p_incendie_type_formation], sizing_mode='stretch_both'),divRemarque) 
+		layout = column(plotNombre,column(plotsuperficie),row(children=[p_incendie_espece, p_incendie_type_formation], sizing_mode='stretch_both')) 
 		# p = vplot(s1, s2, s3)
 
 		script, div = components(layout)	 
@@ -519,11 +524,14 @@ def nombrefoyergraph(request):
 			print(counts)
 			items.append(sd["name"])
 			items = list(map(str, items))
-			plotNombre = figure(x_range= items,plot_height= 400,plot_width= 1000, title="Nombre de Foyer",toolbar_location = "right", tools = "pan,wheel_zoom,box_zoom,reset,tap,crosshair",y_range=(0, max(counts)))
+			plotNombre = figure(x_range= items,plot_height= 400,plot_width= 1000, title="Nombre de Foyer",toolbar_location = "right", tools = "pan,wheel_zoom,box_zoom,reset,tap,crosshair")
 			source = ColumnDataSource(data = dict(xx=items, zz=counts, color=Spectral6))
 			plotNombre.vbar(x='xx',top='zz', width=.5, color ='color',source = source)
 			plotNombre.xaxis.major_label_orientation = math.pi/2
+			plotNombre.grid.visible = False
+			plotNombre.yaxis.ticker = SingleIntervalTicker(interval=1)
 
+ 
 		hover = HoverTool()
 		hover.tooltips="""
 		<div>
@@ -546,7 +554,7 @@ def nombrefoyergraph(request):
 		div =     '<div class="center-align">' "<span style = 'color:red'  >" 'Pas dincendies dans votre wilaya' "</span>" '</div>'
 		script = ''
  
-	return render (request, 'incendies/graphBokeh.html', {'script':script, 'div':div,'div2':div2})
+	return render (request, 'incendies/graphBokeh.html', {'script':script, 'div':div})
 
 def algerie(request):
 	wilaya = serialize('geojson', Wilaya.objects.filter(user= request.user))

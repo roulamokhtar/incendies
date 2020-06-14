@@ -94,8 +94,7 @@
       
      </div>
 </div> 
-  </nav>
-  <ul class="sidenav" id="mobile-links">
+   <ul class="sidenav" id="mobile-links">
       {% if user.is_authenticated %}
 
   
@@ -135,8 +134,7 @@
                       
                   <li><a  href="{% url  'logout' %}">Déconnexion</a></li>
                        <li><a  href="#">{{user}}</a></li>
-                      </ul>
-                       {% else %}
+                        {% else %}
                        <ul class="right">
                                  <li><a href="{% url  'login' %}">Connexion </a></li>  
 
