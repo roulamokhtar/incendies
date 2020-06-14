@@ -36,8 +36,15 @@
    			<td>{{ incendie.commune }}</td>
   			<td>{{ incendie.forets}}</td>
   			<td>{{ incendie.lieudit}}</td>
-  			<td>{{ incendie.heureDepart }}</td>  
-  			<td>{{ incendie.heureIntervention }}</td> 
+  			<td>{{ incendie.dateDepart }} - {{ incendie.heureDepart }} </td>  
+       {% if not incendie.dateIntervention %}
+            <td class='center-align'>  <span style="color:red ">  / </span></td>
+             {% else %} 
+             <span color ='green'>
+       <td>{{ incendie.dateIntervention}} - {{ incendie.heureIntervention  }}</td> 
+
+             </span>
+              {% endif %}
  
            <td>
            {% if incendie.is_encours %}

@@ -9,8 +9,8 @@
 <div class="row ">
   <nav class="menu col s12 m6 offset-m3 ">
   <ul>
-    <li> <a href="#formulaireSection" class="href">Formulaire de saisie des données</a></li>
-    <li><a href="#detailSection" class="href"> Détails de l'incendie</a></li>
+    <div class ="col s6">   <a href="#formulaireSection" class="href">Formulaire saisie  </a> </div>
+    <div class ="col s6">  <a href="#detailSection" class="href"> Détails   </a> </div>
   </ul>
    </nav>
 </div>
@@ -26,22 +26,22 @@
             <p class="card-title  "> Lieu dit:<span style = "color: yellow"> {{ incendie.lieudit }} </span></p>
             <p class="card-title  "> Latitude :<span style = "color: yellow"> {{ incendie.Lat }}</span></p>
             <p class="card-title  "> Longitude :<span style = "color: yellow"> {{ incendie.Long }}</span></p>
-            <p class="card-title  "> Date de départ :<span style = "color: yellow"> {{ incendie.heureDepart }}</span></p>
+            <p class="card-title  "> Date de départ :<span style = "color: yellow"> {{ incendie.dateDepart }} - {{ incendie.heureDepart }}</span></p>
             <p class="card-title  "> Date d'intervention: 
-            {% if incendie.is_encours %}
-              <span style="color:red"> / 
+            {%  if not incendie.dateIntervention %}
+              <span style="color:red"> / </span>
              {% else %} 
-             <span color ='green'>
-               incendie.dateIntervention
+             <span style = "color :yellow">
+               {{ incendie.dateIntervention}} - {{ incendie.heureIntervention  }}</span>
              </p>
               {% endif %}
             <p class="card-title"> Date d'extinction :
             {% if incendie.is_encours %}
             <!-- <a href="" class="btn-floating btn-Tiny red "><i class=" material-icons">cancel</i></a> -->
-            <span style="color:yellow"> en cours  
+            <span style="color:tomato"> en cours  
             {% else %}
             
-            {{ incendie.dateExt }}          
+            {{ incendie.dateExt }} - {{ incendie.heureExt }}         
             {% endif %}
             </p>
             </div>
@@ -121,7 +121,7 @@
    
 <hr>
 <section id= "detailSection" class ="section">
- <h4 class="card-title center-align">Détails de l'incendie</h4>
+ <h4 class="card-title center-align" >Détails de l'incendie</h4>
 
 <div class="row" >
 
@@ -129,7 +129,7 @@
         <div class ="card">
           <div class="card-body" style="height: 500px">
             <table class=" table table-striped">
-              <h4 class="center-align">Moyens Humains mobilisés</h4>
+              <h4 class="center-align" style="color:red">Moyens Humains mobilisés</h4>
                 <thead>
                   <tr>
                     <div class="col s2"><th >Organisme </th></div>
@@ -161,7 +161,7 @@
     <div class ="card">
       <div class="card-body" style="height: 500px">        
         <table class=" table table-striped">
-        <h4 class="center-align"> Matériels mobilisés</h4>
+        <h4 class="center-align" style="color:red"> Matériels mobilisés</h4>
           <thead>
           <tr>
           <div class="col s2"><th>Organisme</th></div>
@@ -195,7 +195,7 @@
     <div class ="card">
       <div class="card-body" style="height: 500px"> 
         <table class=" table table-striped">
-        <h5 class="center-align">Type de Formation forestière</h5>
+        <h4 class="center-align" style="color:red">Type de Formation forestière</h5>
           <thead>
             <tr>
               <div class="col s2"><th>Type formation</th></div>

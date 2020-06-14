@@ -196,8 +196,8 @@ def synthese(request):
 	 
 
 	if request.user.username == 'DGF':
-		nombreFoyer =   Wilaya.objects.exclude(name = 'DGF').annotate(dcount=Coalesce(Count('incendie__lieudit'),0)).order_by('-dcount','name') 
-		nombreFoyer= nombreFoyer.values('name','dcount')
+		nombreFoyer =   Wilaya.objects.exclude(name = 'DGF').annotate(dcount=Coalesce(Count('incendie__lieudit'),0),superficie=Coalesce(Sum('incendie__typeformationincendie__sup'),0)).order_by('-dcount','name') 
+		nombreFoyer= nombreFoyer.values('name','dcount','superficie')
 
 		superficie = Wilaya.objects.exclude(name = 'DGF').annotate(superficie=Coalesce(Sum('incendie__typeformationincendie__sup'),0)).order_by('-superficie','name')
 		superficie= superficie.values('name','superficie')
@@ -233,8 +233,8 @@ def synthese(request):
 		dict_of_percentages_espece = { superficie['typeformationincendie__espece__name']:superficie['superficie_formation'] * 100/ sum_incendie_types['sum_superficie']
 		for superficie in all_incendie_typesespece }
 	else:
-		nombreFoyer = Commune.objects.filter(wilaya__name= request.user.username).annotate(dcount=Coalesce(Count('incendie__lieudit'),0)).order_by('-dcount','name')
-		nombreFoyer= nombreFoyer.values('name','dcount')
+		nombreFoyer = Commune.objects.filter(wilaya__name= request.user.username).annotate(dcount=Coalesce(Count('incendie__lieudit'),0), superficie=Coalesce(Sum('incendie__typeformationincendie__sup'),0)).order_by('-dcount','name')
+		nombreFoyer= nombreFoyer.values('name','dcount','superficie')
 
 		superficie = Commune.objects.filter(wilaya__name= request.user.username).annotate(superficie=Coalesce(Sum('incendie__typeformationincendie__sup'),0)).order_by('-superficie','name')
 		superficie= superficie.values('name','superficie')
@@ -534,7 +534,7 @@ def nombrefoyergraph(request):
 
 		plotNombre.add_tools(hover)
 
-		div2 =     '<div class="center-align">' "<span style = 'color:red'  >" 'Pas de superficie renseigné dans votre wilaya' "</span>" '</div>'
+		div2 =     '<div class="center-align">' "<span style = 'color:red'  >" 'Pas de superficie renseignée' "</span>" '</div>'
 
 		layout = column(plotNombre) 
 	 
