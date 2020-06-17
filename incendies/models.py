@@ -140,11 +140,25 @@ class Degat ( models.Model):
         return str(self.typedegat)
     def  get_absolute_url(self):
         return reverse('detail', kwargs={'incendie_id':self.incendie_id})
-
-
-
-
-
+class Limite_commune(models.Model):
+    gid = models.IntegerField()
+    objectid_1 = models.IntegerField()
+    objectid = models.IntegerField()
+    objectid_2 = models.IntegerField()
+    nature = models.CharField(max_length=20)
+    name = models.CharField(max_length=30)
+    autre_nom = models.CharField(max_length=30)
+    nom_wilaya = models.CharField(max_length=30)
+    wilaya = models.FloatField()
+    origine = models.CharField(max_length=30)
+    code = models.IntegerField()
+    shape_leng = models.FloatField()
+    shape_le_1 = models.FloatField()
+    shape_le_2 = models.FloatField()
+    shape_area = models.FloatField()
+    geom = models.MultiPolygonField(srid=4326)
+    def __str__(self):
+        return self.name
 
 
 
