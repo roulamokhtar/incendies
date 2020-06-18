@@ -115,6 +115,10 @@ $(document).ready(function(){
     });
  feux =L.geoJSON.ajax("{% url 'feux' %}");
  
+limite_communes =   L.geoJSON.ajax("{% url 'limite_commune' %}" ,{onEachFeature: bindLimite_commune ,  style:StyleLimite_commune});
+function bindLimite_commune (feature,layer){
+            layer.bindPopup(feature.properties.commune.toString())
+    }
 
  // for (var i = 0; i < feux.length; i++) {
  //      var markerLocation = new L.LatLng(feux[i].Lat, feux[i].Long);
@@ -210,9 +214,7 @@ var colorICON= greenIcon;
 
  
    
-    function bindLimite_commune (feature,layer){
-            layer.bindPopup(feature.properties.name.toString())
-    }
+     
     function bindLocalites (feature,layer){
 layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.properties.name.toString())+"</strong><p>"      } 
     ////////////////////////////fin functionbindPopup////////////////////////////
@@ -221,7 +223,7 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
       var openstreetmap =   L.layerGroup([openstreetmap]);
       var esri =   L.layerGroup([esri]);
       // var tpf =   L.layerGroup([tpf ]);
-      // var limite_communes = L.layerGroup([limite_communes]);
+      var limite_communes = L.layerGroup([limite_communes]);
       // var localites = L.layerGroup([localites]);
       var feux = L.layerGroup([feux]);
       // var forest = L.layerGroup([forest]);//forest variable gee
@@ -240,6 +242,7 @@ layer.bindPopup("<p><strong><font size='2' color='blue'>Locali :"+feature.proper
           "OpenTopoMap":OpenTopoMap
     }; 
     var overlayMaps3 = {
+        "communes":  limite_communes,
         "Incendies":  feux
      }; 
 

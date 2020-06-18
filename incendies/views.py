@@ -163,22 +163,22 @@ def add_Degat(request, incendie_id):
 
 def cartofeux(request):
     # canton =  Canton.objects.filter(layer__contains='FD')
-    # communes =  Limite_commune.objects.all()
+    communes =  Limite_commune.objects.all()
     # perimetres =  Perimetre.objects.all()
     # beneficiares = Parcellaire_perimetre.objects.all()
     # foret_recreatives = Foret_recreative.objects.all()
     # reboisements = Reboisement.objects.filter(kml_folder__contains='Programme 2017')
  
-    return render(request,'incendies/layoutmap.html')
-    # ,{
+    return render(request,'incendies/layoutmap.html'
+    ,{
     # 'Canton':canton,
-    # 'communes':communes,
+    'communes':communes,
     # 'perimetres':perimetres,
     # 'beneficiares':beneficiares,
     # 'foret_recreatives':foret_recreatives,
     # 'reboisements':reboisements,
    
-    # } 
+    })
     
 # def localites(request):
 #     localites = serialize('geojson', Localites.objects.all())
@@ -608,8 +608,8 @@ def signup(request):
 def limite_commune(request):
     limite_communes = serialize('geojson', Limite_commune.objects.all())
     return HttpResponse(limite_communes,content_type='json')
-def localites(request):
-    localites = serialize('geojson', Localites.objects.all())
-    return HttpResponse(localites,content_type='json')
+# def localites(request):
+#     localites = serialize('geojson', Localites.objects.all())
+#     return HttpResponse(localites,content_type='json')
 
  
