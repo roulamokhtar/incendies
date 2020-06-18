@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 from .models import *
-# from leaflet.admin import LeafletGeoAdmin
+from leaflet.admin import LeafletGeoAdmin
 
 from import_export.admin import ImportExportModelAdmin
 
@@ -32,6 +32,8 @@ admin.site.register(Espece)
 admin.site.register(Typeformation)
 
 admin.site.register(Incendie)
+admin.site.register(Limite_commune, LeafletGeoAdmin)
+
 
 
 
