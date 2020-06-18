@@ -147,7 +147,7 @@ class Limite_commune(models.Model):
     objectid_2 = models.IntegerField()
     nature = models.CharField(max_length=20)
     commune = models.CharField(max_length=30)
-    autre_nom = models.CharField(max_length=30)
+    autre_nom = models.CharField(max_length=30,null=True)
     nom_wilaya = models.CharField(max_length=30)
     wilaya = models.FloatField()
     origine = models.CharField(max_length=30)
