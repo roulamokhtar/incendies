@@ -146,7 +146,7 @@ class Limite_commune(models.Model):
     objectid = models.IntegerField()
     objectid_2 = models.IntegerField()
     nature = models.CharField(max_length=20)
-    name = models.CharField(max_length=30)
+    commune = models.CharField(max_length=30)
     autre_nom = models.CharField(max_length=30)
     nom_wilaya = models.CharField(max_length=30)
     wilaya = models.FloatField()
@@ -158,7 +158,7 @@ class Limite_commune(models.Model):
     shape_area = models.FloatField()
     geom = models.MultiPolygonField(srid=4326)
     def __str__(self):
-        return self.name
+        return self.commune
 
 
 

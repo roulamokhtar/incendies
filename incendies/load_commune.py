@@ -8,7 +8,7 @@ limite_commune_mapping = {
     'objectid': 'objectid',
     'objectid_2': 'objectid_2',
     'nature': 'nature',
-    'name': 'name',
+    'commune': 'commune',
     'autre_nom': 'autre_nom',
     'nom_wilaya': 'nom_wilaya',
     'wilaya': 'wilaya',
