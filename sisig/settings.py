@@ -152,7 +152,11 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGIN_REDIRECT_URL='/incendies/'
 LOGOUT_REDIRECT_URL='/'
- 
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER' : (36.69789, 5.90438),
+}
+     # map.setView([36.69789, 5.90438], 10);
+
 # DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 
  

@@ -16,6 +16,7 @@ class ViewAdminWilaya(ImportExportModelAdmin):
 class ViewAdminCommune(ImportExportModelAdmin):
 	model = Commune
 
+
 admin.site.register(Moyenshumain)
  
 admin.site.register(Moyensmateriel)
