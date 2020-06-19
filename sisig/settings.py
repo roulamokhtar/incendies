@@ -63,7 +63,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
-
 ROOT_URLCONF = 'sisig.urls'
 
 TEMPLATES = [
