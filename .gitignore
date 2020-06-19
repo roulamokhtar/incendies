@@ -1,4 +1,4 @@
 sisig
 *.pyc
-staticfiles
+static
 .env
